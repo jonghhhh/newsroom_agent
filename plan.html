@@ -225,9 +225,12 @@ python -m venv .venv
 # macOS / Linux
 python3 -m venv .venv
 </code></pre>
-<p><strong>② 활성화</strong> — 터미널을 새로 열 때마다 필요. 입력줄 앞에 <code>(.venv)</code>가 붙으면 성공.</p>
-<pre><code class="language-bash"># Windows · PowerShell
+<p><strong>② 활성화</strong> — 터미널을 새로 열 때마다 필요. 입력줄 앞에 <code>(.venv)</code>가 붙으면 성공. <strong>터미널 종류에 따라 명령이 다름.</strong></p>
+<pre><code class="language-bash"># Windows · PowerShell (VS Code 기본. 입력줄 앞에 PS 표시)
 .venv\Scripts\Activate.ps1
+
+# Windows · 명령 프롬프트(cmd)
+.venv\Scripts\activate.bat
 
 # macOS / Linux
 source .venv/bin/activate
@@ -245,7 +248,7 @@ pip freeze &gt; requirements.txt
 <li>막히면 Claude Code에 "내 OS는 Windows야. <code>.venv</code>를 만들고 활성화하는 명령을 알려줘"라고 요청.</li>
 </ul>
 <blockquote class="warn">
-<p><strong>가장 흔한 사고 두 가지</strong> — ① <code>ModuleNotFoundError</code>는 대개 <strong>활성화를 안 한 상태</strong>로 실행한 경우임. <code>(.venv)</code> 표시부터 확인. ② Windows PowerShell에서 활성화 스크립트가 차단되면 <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>를 한 번 실행한 뒤 재시도. 자세한 내용은 <a href="./vibecoding_basic.html#venv">입문 가이드 사전 준비 2</a>.</p>
+<p><strong>가장 흔한 사고 두 가지</strong> — ① <code>ModuleNotFoundError</code>는 대개 <strong>활성화를 안 한 상태</strong>로 실행한 경우임. <code>(.venv)</code> 표시부터 확인. ② PowerShell에서 활성화가 차단되면 <strong><code>.venv\Scripts\activate.bat</code>을 쓰는 것이 가장 빠른 해결</strong>임(실행정책 제한을 받지 않음). PowerShell을 유지하려면 <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>를 한 번 실행. 자세한 내용은 <a href="./vibecoding_basic.html#venv">입문 가이드 사전 준비 2</a>.</p>
 </blockquote>
 <h3 id="3-3-api">3-3. 네이버 검색 API 키</h3>
 <p>developers.naver.com에서 애플리케이션을 등록하고 <strong>검색</strong> API를 추가하면 Client ID와 Secret 발급. 무료·즉시 발급. 프로젝트 루트의 <code>.env</code>에 저장.</p>
