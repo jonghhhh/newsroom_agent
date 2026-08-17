@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주제 바꾸기 — 새 주제를 세 막 전체에 적용하기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+:root{
+  --paper:#ffffff; --wash:#f5f6f9; --ink:#16171d; --body:#33353f; --muted:#71747f;
+  --accent:#0f8b8d; --accent-soft:#e4f5f5; --accent-line:#a6dcdc;
+  --line:#e7e8ee; --code-bg:#1d1e26; --warn:#b4631a; --warn-soft:#fdf1e3; --warn-line:#f0cfa0;
+  --keep:#5a40e8; --keep-soft:#efeaff; --keep-line:#cabfff;
+  --maxw:1200px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--wash); color:var(--body);
+  font-family:"Pretendard","Pretendard Variable",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16.5px; line-height:1.75; letter-spacing:-0.01em;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:262px minmax(0,1fr); gap:0; align-items:start}
+aside{position:sticky; top:0; height:100vh; overflow-y:auto; padding:34px 18px 60px 26px; border-right:1px solid var(--line); background:var(--paper)}
+.brandmark{font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; margin-bottom:4px}
+.brandsub{font-size:13px; color:var(--muted); margin-bottom:22px; line-height:1.5}
+nav{display:flex; flex-direction:column; gap:1px; border-left:2px solid var(--line)}
+nav a{display:block; text-decoration:none; color:var(--muted); padding:5px 0 5px 14px; margin-left:-2px; border-left:2px solid transparent; font-size:13.5px; transition:color .15s,border-color .15s}
+nav a:hover{color:var(--ink)}
+nav a.nav-h2{color:var(--body); font-weight:650; margin-top:8px}
+nav a.nav-h3{font-size:12.8px; padding-left:26px}
+nav a.active{color:var(--accent); border-left-color:var(--accent); font-weight:650}
+main{background:var(--paper); padding:0 0 90px; min-width:0}
+.wrap{max-width:820px; margin:0 auto; padding:0 40px}
+.hero{padding:64px 40px 40px; background:
+   radial-gradient(120% 100% at 0% 0%, #e8f6f6 0%, rgba(232,246,246,0) 55%),
+   linear-gradient(180deg,#fbfefe,#ffffff); border-bottom:1px solid var(--line)}
+.hero .inner{max-width:820px; margin:0 auto}
+.hero h1{font-size:clamp(30px,4.4vw,46px); line-height:1.12; letter-spacing:-0.03em; color:var(--ink); margin:0 0 14px; font-weight:800}
+.hero h3{font-size:16px; font-weight:600; color:var(--accent); margin:0 0 26px; letter-spacing:-0.01em}
+.hero blockquote{margin:0; padding:20px 22px; background:var(--paper); border:1px solid var(--line);
+   border-radius:14px; box-shadow:0 1px 0 rgba(20,20,30,.02); font-size:14.5px; color:var(--body)}
+.hero blockquote p{margin:.28em 0}
+.hero blockquote strong{color:var(--ink)}
+h2{font-size:25px; font-weight:780; color:var(--ink); letter-spacing:-0.02em; line-height:1.3;
+   margin:62px 0 18px; padding-top:18px; border-top:1px solid var(--line); scroll-margin-top:18px}
+.wrap > h2:first-child{border-top:none; margin-top:30px}
+h3{font-size:18.5px; font-weight:720; color:var(--ink); letter-spacing:-0.015em; margin:34px 0 12px; scroll-margin-top:18px}
+h2 + h3{margin-top:18px}
+h4{font-size:15.5px; font-weight:700; color:var(--ink); margin:22px 0 8px}
+p{margin:.7em 0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-line)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink); font-weight:700}
+hr{border:none; border-top:1px solid var(--line); margin:40px 0}
+ul,ol{margin:.6em 0; padding-left:1.35em}
+li{margin:.32em 0}
+li::marker{color:var(--accent)}
+ul ul,ol ul,ul ol{margin:.2em 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.86em; background:#f0f0f4; color:#0b6f70;
+   padding:.14em .42em; border-radius:6px; border:1px solid #e6e5ef; letter-spacing:0}
+.code-card{margin:18px 0; border-radius:12px; overflow:hidden; border:1px solid #2a2b36; box-shadow:0 6px 22px -12px rgba(20,20,40,.35)}
+.code-head{display:flex; align-items:center; justify-content:space-between; background:#15161d; padding:8px 14px; border-bottom:1px solid #2a2b36}
+.code-dots{display:flex; gap:6px}
+.code-dots i{width:11px; height:11px; border-radius:50%; display:block}
+.code-dots i:nth-child(1){background:#ff5f57}.code-dots i:nth-child(2){background:#febc2e}.code-dots i:nth-child(3){background:#28c840}
+.code-lang{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8b8d9a; margin-left:10px}
+.code-copy{font-family:"Pretendard",sans-serif; font-size:12px; font-weight:600; color:#c5c7d4; background:#262732;
+   border:1px solid #34353f; border-radius:7px; padding:4px 11px; cursor:pointer; transition:.15s}
+.code-copy:hover{background:#31323e; color:#fff}
+.code-copy.copied{background:var(--accent); border-color:var(--accent); color:#fff}
+.code-card pre{margin:0; background:var(--code-bg); padding:16px 16px; overflow-x:auto}
+.code-card pre code{background:none; border:none; padding:0; color:#e6e6ed; font-size:13.3px; line-height:1.65; letter-spacing:0}
+.tbl{margin:20px 0; overflow-x:auto; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:560px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:var(--accent-soft); color:#0b5a5b; font-weight:700; border-bottom:1px solid var(--accent-line); letter-spacing:-0.01em}
+tbody tr:nth-child(even){background:#fafafc}
+tbody tr:last-child td{border-bottom:none}
+td code,th code{font-size:.82em}
+.wrap blockquote{margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+   border:1px solid var(--accent-line); border-left:4px solid var(--accent); border-radius:10px; color:#26504f; font-size:14.5px}
+.wrap blockquote p{margin:.3em 0}
+.wrap blockquote strong{color:#0b5a5b}
+.wrap blockquote code{background:#fff; color:#0b6f70}
+.wrap blockquote.warn{background:var(--warn-soft); border-color:var(--warn-line); border-left-color:var(--warn); color:#6e4314}
+.wrap blockquote.warn strong{color:var(--warn)}
+.wrap blockquote.warn code{color:#9a5316}
+.wrap blockquote.keep{background:var(--keep-soft); border-color:var(--keep-line); border-left-color:var(--keep); color:#3a356b}
+.wrap blockquote.keep strong{color:#2c2480}
+.wrap blockquote.keep code{color:#4632c4}
+.docfoot{max-width:820px; margin:50px auto 0; padding:22px 40px 0; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  aside{display:none}
+  .wrap,.hero .inner,.hero,.docfoot{padding-left:22px; padding-right:22px}
+}
+@media print{
+  body{background:#fff; font-size:11pt}
+  aside,.code-copy{display:none}
+  .layout{display:block}
+  .code-card{break-inside:avoid; border-color:#ccc}
+  .code-card pre{background:#f5f5f7}
+  .code-card pre code{color:#1d1e26}
+  .code-head{background:#eee}
+  .tbl,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{color:inherit; border:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brandmark">TOPIC SWITCH</div>
+    <div class="brandsub">부록 · 주제 바꾸기<br>배달앱 수수료 사례</div>
+    <nav id="toc"><a class="nav-h2" href="#1">1. 이 문서가 답하는 질문</a>
+<a class="nav-h3" href="#1-1">1-1. 바꾸는 것은 세 종류뿐</a>
+<a class="nav-h3" href="#1-2">1-2. 한눈에 보는 변경 지도</a>
+<a class="nav-h2" href="#2">2. 주제를 고르는 세 조건</a>
+<a class="nav-h3" href="#2-1">2-1. 조건 세 가지</a>
+<a class="nav-h3" href="#2-2">2-2. 15분 사전 점검</a>
+<a class="nav-h2" href="#3">3. 새 주제 — 배달앱 수수료</a>
+<a class="nav-h3" href="#3-1">3-1. 왜 이 주제인가</a>
+<a class="nav-h3" href="#3-2">3-2. 쟁점 지도</a>
+<a class="nav-h2" href="#4">4. 1막(기획)에서 바꿀 것</a>
+<a class="nav-h3" href="#4-1">4-1. 검색어 — collect_news.py</a>
+<a class="nav-h3" href="#4-2">4-2. 서브에이전트 예시 문구</a>
+<a class="nav-h3" href="#4-3">4-3. 실행 프롬프트</a>
+<a class="nav-h3" href="#4-4">4-4. 나올 질문 목록의 모습</a>
+<a class="nav-h2" href="#5">5. 2막(취재)에서 바꿀 것</a>
+<a class="nav-h3" href="#5-1">5-1. 법인명 찾기 — 가장 중요한 단계</a>
+<a class="nav-h3" href="#5-2">5-2. fetch_dart.py</a>
+<a class="nav-h3" href="#5-3">5-3. fetch_assembly.py</a>
+<a class="nav-h3" href="#5-4">5-4. 브라우저 수집 대상</a>
+<a class="nav-h3" href="#5-5">5-5. 개체 유형 조정</a>
+<a class="nav-h2" href="#6">6. 3막(보도)에서 바꿀 것</a>
+<a class="nav-h2" href="#7">7. 바꾸지 않는 것</a>
+<a class="nav-h2" href="#8">8. 흔한 실패와 대처</a>
+<a class="nav-h2" href="#9">9. 내 출입처 주제로 바꾸기</a>
+<a class="nav-h2" href="#10">10. 90분 진행 순서 (전환 실습)</a>
+<a class="nav-h2" href="#codex">Codex로 만들기</a></nav>
+  </aside>
+  <main>
+    <header class="hero"><div class="inner"><h1 id="_1">주제 바꾸기 — 새 주제를 세 막 전체에 적용하기</h1>
+<h3 id="_2">해상풍력에서 배달앱 수수료로. 무엇을 고치고 무엇을 그대로 두나</h3>
+<blockquote>
+<p><strong>대상</strong>: 해상풍력 주제로 <a href="./plan.html">1막</a>~<a href="./writing.html">3막</a>을 한 번 돌려 본 기자<br>
+<strong>목적</strong>: 같은 파이프라인에 <strong>새 주제를 갈아 끼우는 실습</strong>. 본인 출입처 주제로 옮길 때의 표준 절차<br>
+<strong>사례 주제</strong>: 배달앱 수수료는 누가 정하고 누가 부담하나<br>
+<strong>핵심 메시지</strong>: 파이프라인은 그대로. 바꾸는 것은 <strong>검색어·법인명·수집 대상</strong> 세 종류뿐</p>
+</blockquote>
+</div></header>
+    <div class="wrap">
+<h2 id="1">1. 이 문서가 답하는 질문</h2>
+<p>세 막을 한 번 돌려 본 뒤 가장 먼저 나오는 질문은 하나임. <strong>"내 출입처 주제로 바꾸려면 뭘 고쳐야 하나?"</strong></p>
+<p>답은 생각보다 짧음. <strong>설계는 주제와 무관하고, 주제에 매인 것은 몇 군데 값뿐</strong>임.</p>
+<h3 id="1-1">1-1. 바꾸는 것은 세 종류뿐</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>종류</th><th>무엇</th><th>어디에</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 검색어</strong></td>
+<td>뉴스 검색어 3~5개, 의안 검색어 2~4개</td>
+<td><code>collect_news.py</code>의 <code>QUERIES</code><br><code>fetch_assembly.py</code>의 <code>KEYWORDS</code></td>
+</tr>
+<tr>
+<td><strong>② 법인명</strong></td>
+<td>DART에서 조회할 정식 법인명과 기간</td>
+<td><code>fetch_dart.py</code>의 <code>COMPANIES</code>·<code>BGN</code>·<code>END</code></td>
+</tr>
+<tr>
+<td><strong>③ 수집 대상</strong></td>
+<td>브라우저로 받을 부처·기관 사이트</td>
+<td>Playwright MCP 프롬프트</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote class="keep">
+<p><strong>바꾸지 않는 것</strong> — CLAUDE.md의 역할·원칙·폴더 규약, 서브에이전트 5개의 지침, 스킬 8개의 절차, Q번호·F번호 규약, 팩트체크 방식, 폴더 구조. <strong>이 설계가 주제와 무관하기 때문에 파이프라인이라고 부를 수 있음.</strong></p>
+</blockquote>
+<h3 id="1-2">1-2. 한눈에 보는 변경 지도</h3>
+<pre><code class="language-text">newsroom_agent/
+├── CLAUDE.md                              그대로
+├── .venv/  .env  requirements.txt         그대로
+├── .claude/
+│   ├── agents/
+│   │   ├── news-archivist.md              예시 검색어 문구만 (선택)
+│   │   ├── web-researcher.md              그대로
+│   │   ├── collector.md                   그대로
+│   │   ├── extractor.md                   ★ 개체 유형 한 줄 추가 (선택)
+│   │   └── verifier.md                    그대로
+│   └── skills/
+│       ├── background-collect/
+│       │   ├── SKILL.md                   그대로
+│       │   └── collect_news.py            ★ QUERIES 교체
+│       ├── background-brief/SKILL.md      그대로
+│       ├── reporting-plan/SKILL.md        그대로
+│       ├── fetch-records/
+│       │   ├── SKILL.md                   그대로
+│       │   ├── fetch_dart.py              ★ COMPANIES · 기간 교체
+│       │   └── fetch_assembly.py          ★ KEYWORDS 교체
+│       ├── collect-web/SKILL.md           그대로
+│       ├── pdf-to-md/                     그대로
+│       ├── entity-ledger/SKILL.md         그대로
+│       ├── fact-ledger/SKILL.md           그대로
+│       ├── decide-angle/SKILL.md          그대로
+│       └── write-article/SKILL.md         그대로
+└── 1_plan/ 2_sources/ 2_facts/ 3_story/   비우고 새로 시작
+
+★ 표시 = 실제로 고치는 곳. 전부 합쳐 값 세 덩어리.
+</code></pre>
+<blockquote>
+<p><strong>새 주제는 새 폴더에서</strong> — 기존 산출물과 섞이면 사실 대장이 오염됨. <code>newsroom_agent_2/</code>처럼 새로 만들고 <code>.claude/</code>·<code>CLAUDE.md</code>·<code>requirements.txt</code>만 복사한 뒤 <code>.venv</code>를 다시 만드는 방식을 권장.</p>
+</blockquote>
+<pre><code class="language-bash"># Windows PowerShell 기준
+mkdir newsroom_agent_2
+cd newsroom_agent_2
+Copy-Item ..\newsroom_agent\CLAUDE.md .
+Copy-Item ..\newsroom_agent\.claude -Recurse
+Copy-Item ..\newsroom_agent\.env .
+Copy-Item ..\newsroom_agent\requirements.txt .
+
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+</code></pre>
+<hr />
+<h2 id="2">2. 주제를 고르는 세 조건</h2>
+<h3 id="2-1">2-1. 조건 세 가지</h3>
+<p>아무 주제나 되는 것은 아님. 이 파이프라인이 굴러가려면 세 조건이 필요함.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>조건</th><th>이유</th><th>확인 방법</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 세 소스에 공통 개체가 등장</strong></td>
+<td>2막 교차검증의 전제. 공시에만 나오는 이름은 대조할 상대가 없음</td>
+<td>기업명 하나를 골라 DART·국회·뉴스에서 각각 검색</td>
+</tr>
+<tr>
+<td><strong>② 공개기록으로 답이 나오는 질문이 5개 이상</strong></td>
+<td>1막 산출물이 질문 목록이므로. "바람직한가" 류만 나오면 2막이 성립 안 됨</td>
+<td>질문 초안을 써 보고 각각 "어느 문서를 받으면 답이 나오나" 자문</td>
+</tr>
+<tr>
+<td><strong>③ 쟁점이 둘 이상으로 갈림</strong></td>
+<td>3막 앵글 판단과 [상충] 발견의 재료</td>
+<td>이해관계자를 나열해 보고 주장이 부딪히는 지점 확인</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="2-2">2-2. 15분 사전 점검</h3>
+<p>본격 시작 전 <strong>15분만 투자해 세 소스를 확인</strong>. 여기서 걸러내면 3시간을 아낌.</p>
+<p><strong>① 뉴스 — 검색어가 성립하는가</strong></p>
+<pre><code class="language-text">&quot;배달앱 수수료&quot;, &quot;배달의민족 수수료&quot;, &quot;온라인플랫폼법&quot; 세 검색어로
+네이버 뉴스 API를 각각 30건씩만 받아서, 실제로 같은 사안을 다루는지 제목만 보여줘.
+검색어가 너무 넓거나 좁으면 대안도 제안해줘.
+</code></pre>
+<p><strong>② 국회 — 의안이 있는가</strong></p>
+<pre><code class="language-text">fetch_assembly.py 의 KEYWORDS 를 [&quot;온라인플랫폼&quot;, &quot;배달&quot;]로 바꿔 실행하고,
+몇 건이 잡히는지와 대표발의 상위 의원만 보고해줘. 파일 저장은 하지 마.
+</code></pre>
+<p><strong>③ DART — 법인이 조회되는가</strong></p>
+<pre><code class="language-text">fetch_dart.py 의 기업 목록 캐시를 이용해서
+&quot;우아한형제들&quot;, &quot;쿠팡&quot;, &quot;위대한상상&quot;이 DART에 정식 법인명으로 등록돼 있는지 확인해줘.
+상장 여부와 corp_code 도 함께 알려줘. 공시 조회는 아직 하지 마.
+</code></pre>
+<blockquote>
+<p><strong>판정 기준</strong> — 세 소스 모두에서 <strong>이름이 겹치는 개체가 최소 2개</strong> 나오면 진행. 하나도 안 겹치면 주제 범위를 좁히거나 넓혀 다시 시도.</p>
+</blockquote>
+<hr />
+<h2 id="3">3. 새 주제 — 배달앱 수수료</h2>
+<h3 id="3-1">3-1. 왜 이 주제인가</h3>
+<ul>
+<li><strong>생활 밀착도 최상</strong> — 자영업자는 비용, 소비자는 가격으로 직접 체감. 취재 동기와 독자 관심이 뚜렷함.</li>
+<li><strong>이해관계가 정면으로 충돌</strong> — 플랫폼 · 입점 자영업자 · 소비자 · 라이더. 3막 앵글 토론이 풍부해짐.</li>
+<li><strong>세 소스가 모두 살아 있음</strong> — 국회 의안, 기업 공시, 뉴스 모두 확보 가능(2-2절에서 직접 확인).</li>
+<li><strong>해상풍력과 영역이 완전히 다름</strong> — 에너지 → 플랫폼. 파이프라인이 주제에 매여 있지 않다는 것을 보여주는 데 적합.</li>
+</ul>
+<h3 id="3-2">3-2. 쟁점 지도</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>쟁점</th><th>다투는 지점</th><th>답이 있을 만한 소스</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>중개수수료율</strong></td>
+<td>요금제별 실제 부담률. 정률제 전환 이후 얼마나 올랐나</td>
+<td>플랫폼 공지·약관, 공정위·중기부 보도자료, 업계 조사</td>
+</tr>
+<tr>
+<td><strong>배달비 전가</strong></td>
+<td>수수료 외 배달비·결제수수료·광고비를 합한 총부담</td>
+<td>자영업자 단체 조사, 국회 국정감사 자료</td>
+</tr>
+<tr>
+<td><strong>이중가격제</strong></td>
+<td>매장가와 배달가 차이. 소비자 전가 여부</td>
+<td>뉴스, 소비자단체 조사</td>
+</tr>
+<tr>
+<td><strong>상생협의체 합의 이행</strong></td>
+<td>합의된 인하안이 실제로 적용됐나</td>
+<td>정부 보도자료, 플랫폼 공시·공지, 후속 보도</td>
+</tr>
+<tr>
+<td><strong>플랫폼 수익구조</strong></td>
+<td>수수료 수익이 매출·영업이익에서 차지하는 비중</td>
+<td>DART 감사보고서·사업보고서</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote class="warn">
+<p><strong>주의 — 이 표는 취재 출발점이지 사실이 아님.</strong> 수치·시점·합의 내용은 모두 <strong>2막에서 공개기록으로 직접 확인</strong>해야 함. 이 문서에 적힌 회사명·법 이름도 실습 시점에 DART·국회 API로 다시 검증할 것.</p>
+</blockquote>
+<hr />
+<h2 id="4">4. 1막(기획)에서 바꿀 것</h2>
+<h3 id="4-1">4-1. 검색어 — collect_news.py</h3>
+<p>고치는 곳은 <strong>상단 설정 블록 한 줄</strong>.</p>
+<pre><code class="language-python"># ── 여기만 고쳐 쓰세요 ────────────────────────────────
+# 이전(해상풍력)
+# QUERIES = [&quot;해상풍력 인허가&quot;, &quot;해상풍력 국산화&quot;, &quot;해상풍력특별법&quot;]
+
+# 새 주제(배달앱 수수료)
+QUERIES = [&quot;배달앱 수수료&quot;, &quot;배달앱 상생협의체&quot;, &quot;온라인플랫폼법&quot;, &quot;배달앱 이중가격&quot;]
+MAX_PER_QUERY = 300
+SORT = &quot;date&quot;
+OUT = pathlib.Path(&quot;1_plan&quot;) / &quot;background_raw.md&quot;
+# ────────────────────────────────────────────────────
+</code></pre>
+<p><strong>검색어 설계 원칙</strong> — 쟁점별로 나눌 것. 한 덩어리로 넣으면 결과가 좁아짐.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>잘못된 검색어</th><th>왜</th><th>고친 검색어</th></tr>
+</thead>
+<tbody>
+<tr><td><code>배달</code></td><td>너무 넓음. 배달 사고·배달 로봇까지 섞임</td><td><code>배달앱 수수료</code></td></tr>
+<tr><td><code>배달앱 수수료 인하 상생협의체 합의</code></td><td>너무 좁음. 한 덩어리 검색어는 결과가 급감</td><td><code>배달앱 수수료</code> + <code>배달앱 상생협의체</code>로 분리</td></tr>
+<tr><td><code>배민</code></td><td>약칭. 기사 표기가 제각각이라 누락 발생</td><td><code>배달의민족</code> (필요하면 약칭도 별도 검색어로 추가)</td></tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>수집 후 반드시 기간 확인.</strong> 네이버 뉴스 API는 최신순 정렬 시 최근 몇 주에서 끊김. 사안 대비 기간이 짧으면 <code>SORT</code>를 <code>&quot;sim&quot;</code>으로 바꿔 한 번 더 수집해 합칠 것. (<a href="./plan.html#3-3-api">1막 3-3절</a> 참고)</p>
+</blockquote>
+<h3 id="4-2">4-2. 서브에이전트 예시 문구 (선택)</h3>
+<p><code>news-archivist.md</code>의 지침에 해상풍력 예시가 들어 있음. 기능에는 영향이 없지만 헷갈리면 바꿔 둘 것.</p>
+<pre><code class="language-markdown"># 이전
+- 검색어는 한 덩어리로 넣지 말고 쟁점별로 나눈다. 예: &quot;해상풍력 인허가&quot; / &quot;해상풍력 국산화&quot; / &quot;해상풍력특별법&quot;.
+
+# 이후
+- 검색어는 한 덩어리로 넣지 말고 쟁점별로 나눈다. 예: &quot;배달앱 수수료&quot; / &quot;배달앱 상생협의체&quot; / &quot;온라인플랫폼법&quot;.
+</code></pre>
+<blockquote class="keep">
+<p><strong>나머지 지침은 손대지 말 것</strong> — "기사 전문을 복제하지 않는다", "수집 후 기간을 확인한다", "매체가 몰려 있으면 보고한다" 같은 규칙은 주제와 무관한 취재 원칙임.</p>
+</blockquote>
+<h3 id="4-3">4-3. 실행 프롬프트</h3>
+<p><code>&lt;주제&gt;</code> 자리만 교체. 나머지 문장은 동일.</p>
+<pre><code class="language-text">&quot;배달앱 중개수수료와 상생협의체 합의 이행&quot; 취재 기획해줘. CLAUDE.md 순서대로
+과거 기사 수집 → 웹 배경 보완 → 배경 요약·구성 → 취재 계획 설계까지 진행하고,
+단계마다 한 줄로 보고해.
+</code></pre>
+<h3 id="4-4">4-4. 나올 질문 목록의 모습</h3>
+<p>1막의 산출물은 <strong>공개기록으로 답이 나오는 질문</strong>. 주제만 바뀌고 형식은 동일함.</p>
+<pre><code class="language-text">Q1  주요 배달앱의 중개수수료율은 요금제별로 얼마이고, 최근 2년간 어떻게 바뀌었나?
+Q2  상생협의체에서 합의된 인하안은 무엇이고, 언제부터 실제로 적용됐나?
+Q3  수수료 외에 자영업자가 부담하는 항목(배달비·결제수수료·광고비)은 각각 얼마인가?
+Q4  플랫폼 매출에서 중개수수료가 차지하는 비중은 얼마이고 어떻게 변했나?
+Q5  국회에 발의된 플랫폼 규제 법안은 몇 건이고, 누가 대표발의했나?
+Q6  공정위·중기부가 제재하거나 시정 권고한 사례는 무엇인가?
+Q7  이중가격제를 도입한 업소 비율에 관한 공식 조사가 있는가?
+Q8  라이더 배달료 단가는 같은 기간 어떻게 변했나?
+</code></pre>
+<div class="tbl"><table>
+<thead>
+<tr><th>이 질문이 좋은 이유</th><th>예시</th></tr>
+</thead>
+<tbody>
+<tr><td>답할 문서가 특정됨</td><td>Q4 → DART 감사보고서의 매출 구성</td></tr>
+<tr><td>수치로 검증 가능</td><td>Q1 → 요금제 공지의 수수료율</td></tr>
+<tr><td>시점 대조가 가능</td><td>Q2 → 합의 발표일 전후 공지·보도 비교</td></tr>
+<tr><td>[상충]이 나올 여지가 있음</td><td>Q3 → 플랫폼 발표 부담률 vs 자영업자 단체 조사</td></tr>
+</tbody>
+</table></div>
+<blockquote class="warn">
+<p><strong>이런 질문은 걸러낼 것</strong> — "배달앱 수수료는 적정한가?", "플랫폼 규제는 필요한가?", "자영업자들은 어떻게 생각하나?" → 공개기록으로 답이 나오지 않음. 1막 인수인계 점검에서 반드시 제거.</p>
+</blockquote>
+<hr />
+<h2 id="5">5. 2막(취재)에서 바꿀 것</h2>
+<h3 id="5-1">5-1. 법인명 찾기 — 가장 중요한 단계</h3>
+<p><strong>주제 전환에서 사고가 가장 많이 나는 지점.</strong> DART는 회사를 <strong>정식 법인명</strong>으로만 다룸. 브랜드명·약칭으로는 조회되지 않음.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>흔히 쓰는 이름</th><th>DART에서 찾아야 할 것</th></tr>
+</thead>
+<tbody>
+<tr><td>배달의민족, 배민</td><td>운영 법인의 정식 명칭 (일반적으로 <code>우아한형제들</code>)</td></tr>
+<tr><td>쿠팡이츠</td><td>국내 제출 법인 (일반적으로 <code>쿠팡</code> 계열 법인)</td></tr>
+<tr><td>요기요</td><td>운영 법인의 정식 명칭 (일반적으로 <code>위대한상상</code>)</td></tr>
+</tbody>
+</table></div>
+<blockquote class="warn">
+<p><strong>위 이름을 그대로 믿지 말 것.</strong> 법인은 사명 변경·분할·합병이 잦음. 반드시 <strong>실습 시점에 DART 기업 목록에서 직접 확인</strong>할 것. 확인 명령은 아래.</p>
+</blockquote>
+<pre><code class="language-text">fetch_dart.py 가 캐시해 둔 .cache/CORPCODE.xml 을 읽어서
+&quot;우아한형제들&quot;, &quot;쿠팡&quot;, &quot;위대한상상&quot; 이 들어간 법인명을 모두 찾아줘.
+각각 corp_code 와 stock_code(상장 여부)를 표로 보여주고,
+정확히 일치하는 이름이 없으면 비슷한 후보도 알려줘.
+</code></pre>
+<h4>비상장 법인이 섞이는 문제</h4>
+<p>해상풍력 주제는 대상이 모두 상장사였음. 배달앱은 다름. <strong>비상장 법인이 섞임.</strong></p>
+<div class="tbl"><table>
+<thead>
+<tr><th>구분</th><th>DART에 올라오는 것</th><th>실습에 미치는 영향</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>상장사</strong></td>
+<td>사업보고서·분기보고서·수시공시(계약·지분 등)</td>
+<td>공시 건수가 많음. 시점 대조가 쉬움</td>
+</tr>
+<tr>
+<td><strong>비상장 외부감사 대상</strong></td>
+<td>주로 <strong>감사보고서</strong>. 수시공시는 거의 없음</td>
+<td>건수가 적음. 대신 <strong>재무제표에서 매출 구성·수수료 수익</strong>을 확인 가능</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>이것 자체가 좋은 교육 소재.</strong> "공시가 3건밖에 안 잡히는데요?"라는 질문이 나오면, <strong>비상장사는 수시공시 의무가 다르다</strong>는 점을 설명할 기회임. 이때 취재 전략은 <strong>건수가 아니라 감사보고서 본문</strong>으로 옮겨감.</p>
+</blockquote>
+<h3 id="5-2">5-2. fetch_dart.py</h3>
+<pre><code class="language-python"># ── 여기만 고쳐 쓰세요 ────────────────────────────────
+# 이전(해상풍력)
+# COMPANIES = [&quot;씨에스윈드&quot;, &quot;SK오션플랜트&quot;, &quot;유니슨&quot;, &quot;두산에너빌리티&quot;]
+# BGN, END = &quot;20260101&quot;, &quot;20260630&quot;
+
+# 새 주제(배달앱) — 5-1절에서 확인한 정식 법인명을 넣을 것
+COMPANIES = [&quot;우아한형제들&quot;, &quot;쿠팡&quot;, &quot;위대한상상&quot;]
+BGN, END = &quot;20240101&quot;, &quot;20260630&quot;   # 상생협의체 논의 전후를 덮도록 넓게
+# ────────────────────────────────────────────────────
+</code></pre>
+<p><strong>기간 설정 요령</strong></p>
+<ul>
+<li>비상장사는 <strong>연 1회 감사보고서</strong> 중심이므로 <strong>기간을 넓게</strong> 잡아야 건수가 나옴.</li>
+<li>다만 한 번에 <strong>100건까지만</strong> 오므로, 상장사가 섞여 있으면 <code>total_count</code>가 100을 넘는지 확인하고 기간을 쪼갤 것.</li>
+<li>쟁점의 분기점(합의 발표·법 시행 등)을 <strong>기간 한가운데</strong>에 두면 전후 비교가 쉬움.</li>
+</ul>
+<h3 id="5-3">5-3. fetch_assembly.py</h3>
+<pre><code class="language-python"># ── 여기만 고쳐 쓰세요 ────────────────────────────────
+# 이전(해상풍력)
+# KEYWORDS = [&quot;해상풍력&quot;, &quot;재생에너지&quot;, &quot;풍력&quot;]
+
+# 새 주제(배달앱)
+KEYWORDS = [&quot;온라인플랫폼&quot;, &quot;플랫폼 중개&quot;, &quot;가맹사업&quot;]
+AGE = &quot;22&quot;
+# ────────────────────────────────────────────────────
+</code></pre>
+<blockquote>
+<p><strong>이 API는 의안 <em>제목</em>으로 검색함.</strong> "배달앱"은 법 제목에 거의 안 들어감. 법률 용어로 바꿔 넣어야 함 — <code>배달앱</code>(×) → <code>온라인플랫폼</code>(○). 주제를 바꿀 때마다 <strong>"이 사안을 다루는 법률의 이름은 무엇인가"</strong>를 먼저 확인할 것.</p>
+</blockquote>
+<p>확인이 어려우면 AI에게 먼저 물어볼 것.</p>
+<pre><code class="language-text">배달앱 수수료를 규율하는 국내 법률·법안의 정식 명칭 후보를 알려줘.
+그 이름들이 국회 의안 제목에 실제로 쓰이는지 fetch_assembly.py 로 각각 10건씩만 확인해줘.
+</code></pre>
+<h3 id="5-4">5-4. 브라우저 수집 대상</h3>
+<p>Playwright MCP로 받을 사이트가 달라짐. 프롬프트의 기관명만 교체.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>주제</th><th>주요 부처·기관</th></tr>
+</thead>
+<tbody>
+<tr><td>해상풍력</td><td>산업통상자원부, 해양수산부, 전력거래소</td></tr>
+<tr><td><strong>배달앱 수수료</strong></td><td><strong>공정거래위원회, 중소벤처기업부, 소상공인시장진흥공단, 한국소비자원</strong></td></tr>
+</tbody>
+</table></div>
+<pre><code class="language-text">Playwright MCP로 공정거래위원회 보도자료 검색 페이지에서 &quot;배달&quot; 검색 결과의
+최근 2년치 PDF를 2_sources/에 받아줘. 접근이 막히면 우회하지 말고 알려줘.
+받은 파일마다 어느 Q에 답하는 자료인지 collection_log.md에 적어줘.
+</code></pre>
+<h3 id="5-5">5-5. 개체 유형 조정 (선택)</h3>
+<p><code>extractor.md</code>의 개체 목록은 범용이라 그대로 써도 됨. 다만 주제 특화 항목을 한 줄 더하면 정확도가 오름.</p>
+<pre><code class="language-markdown"># extractor.md 에 한 줄 추가
+- 이 주제에서는 다음도 개체로 뽑는다: 요금제명, 수수료율(%), 부과 방식(정률/정액),
+  적용 시작일, 조사 주체와 표본 수.
+</code></pre>
+<blockquote class="keep">
+<p><strong>나머지 규칙은 절대 건드리지 말 것</strong> — "위치를 반드시 적는다", "해석·추측하지 않는다", "검증 담당이 오염되면 안 된다". 이 규칙들이 2막 설계의 전부임.</p>
+</blockquote>
+<hr />
+<h2 id="6">6. 3막(보도)에서 바꿀 것</h2>
+<p><strong>거의 없음.</strong> 3막의 입력은 사실 대장 하나뿐이고, 앵글 판단·문체·팩트체크는 모두 주제와 무관한 절차임.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>항목</th><th>바꾸나</th><th>비고</th></tr>
+</thead>
+<tbody>
+<tr><td><code>decide-angle/SKILL.md</code></td><td>그대로</td><td>뉴스가치 기준(새로움·중요성·파장·유명성·갈등·근접성·이례성)은 범용</td></tr>
+<tr><td><code>write-article/SKILL.md</code></td><td>그대로</td><td>근거 ID 규칙은 주제 무관</td></tr>
+<tr><td><code>fact-checker.md</code></td><td>그대로</td><td>판정 유형([과장]·[근거 없음] 등)은 범용</td></tr>
+<tr><td><code>style/my-articles/</code></td><td>그대로</td><td>내 문체는 주제가 바뀌어도 같음</td></tr>
+<tr><td>CLAUDE.md 뉴스가치 절</td><td>그대로</td><td>다만 아래 강조점 차이는 알아 둘 것</td></tr>
+</tbody>
+</table></div>
+<h3 id="6-1">강조되는 뉴스가치가 달라짐</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>주제</th><th>강하게 작동하는 뉴스가치</th><th>앵글이 잡히는 방향</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>해상풍력</td>
+<td>중요성 · 사회적 파장 · 갈등</td>
+<td>정책 집행의 지연과 이해관계. 산업·정책 기사</td>
+</tr>
+<tr>
+<td><strong>배달앱 수수료</strong></td>
+<td><strong>근접성 · 갈등 · 이례성</strong></td>
+<td>독자의 지갑에 닿는 영향. 생활경제·소비자 기사</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>강의 활용 포인트</strong> — 같은 파이프라인, 같은 스킬인데 <strong>앵글 후보의 성격이 달라지는 것</strong>을 두 주제로 비교해 보여줄 수 있음. 뉴스가치가 취향이 아니라 <strong>사안의 성질에서 나온다</strong>는 점을 체감시키기 좋음.</p>
+</blockquote>
+<hr />
+<h2 id="7">7. 바꾸지 않는 것 (한 번 더)</h2>
+<p>주제를 바꿀 때 <strong>손대면 안 되는 것</strong>을 다시 정리함. 여기를 건드리면 파이프라인이 무너짐.</p>
+<div class="tbl"><table>
+<thead>
+<tr><th>영역</th><th>그대로 두는 이유</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Q번호 · F번호 규약</strong></td>
+<td>세 막을 잇는 유일한 고리. 번호 체계를 바꾸면 되짚기가 끊김</td>
+</tr>
+<tr>
+<td><strong>추출자와 검증자 분리</strong></td>
+<td>팩트체크 신뢰의 핵심. 주제와 무관한 구조적 장치</td>
+</tr>
+<tr>
+<td><strong>[확인]·[미확인]·[상충] 3단 표시</strong></td>
+<td>3막에서 무엇을 쓸 수 있고 없는지를 결정하는 기준</td>
+</tr>
+<tr>
+<td><strong>"대장에 없는 문장은 쓰지 않는다"</strong></td>
+<td>환각 차단 장치. 이 규칙 하나가 전체 신뢰를 지탱</td>
+</tr>
+<tr>
+<td><strong>출처를 원본 쪽수로 적는 규칙</strong></td>
+<td>변환본은 수치가 어긋날 수 있음. 사람이 되짚을 때 필요</td>
+</tr>
+<tr>
+<td><strong>수집 전 목록 승인</strong></td>
+<td>API 한도·되돌리기 어려움 때문. 주제와 무관</td>
+</tr>
+<tr>
+<td><strong>윤리·저작권 규칙</strong></td>
+<td>기사 전문 복제 금지, 로그인 우회 금지, 미확인 혐의 단정 금지</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="8">8. 흔한 실패와 대처</h2>
+<div class="tbl"><table>
+<thead>
+<tr><th>증상</th><th>원인</th><th>대처</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>DART에서 <code>[찾을 수 없음]</code></td>
+<td>브랜드명·약칭을 넣음</td>
+<td>5-1절 명령으로 정식 법인명 확인 후 교체</td>
+</tr>
+<tr>
+<td>공시가 몇 건뿐</td>
+<td>비상장 법인이라 수시공시가 적음</td>
+<td>정상. 기간을 넓히고 <strong>감사보고서 본문</strong>으로 전략 전환</td>
+</tr>
+<tr>
+<td>의안이 0건</td>
+<td>일상어를 검색어로 넣음(<code>배달앱</code>)</td>
+<td>법률 용어로 교체(<code>온라인플랫폼</code>). 5-3절 확인 프롬프트 사용</td>
+</tr>
+<tr>
+<td>뉴스가 수천 건이라 정리 불가</td>
+<td>검색어가 너무 넓음(<code>배달</code>)</td>
+<td>쟁점별로 좁힘. <code>MAX_PER_QUERY</code>도 낮출 것</td>
+</tr>
+<tr>
+<td>뉴스 기간이 3주뿐</td>
+<td>네이버 API의 최신순 정렬 한계</td>
+<td><code>SORT</code>를 <code>&quot;sim&quot;</code>으로 바꿔 한 번 더 수집해 합침</td>
+</tr>
+<tr>
+<td>세 소스에 겹치는 개체가 없음</td>
+<td>주제 범위가 어긋남</td>
+<td>2-2절 사전 점검으로 복귀. 주제를 좁히거나 인접 사안으로 이동</td>
+</tr>
+<tr>
+<td>질문이 전부 "어떻게 생각하나" 류</td>
+<td>쟁점을 의견 문제로 잡음</td>
+<td>각 질문에 "어느 문서를 받으면 답이 나오나"를 붙여 다시 씀</td>
+</tr>
+<tr>
+<td>사실 대장이 전부 [확인]</td>
+<td>교차검증이 형식적이었음</td>
+<td>verifier에게 "처음 나온 곳과 <strong>다른 출처</strong>로 확인"을 다시 명시</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="9">9. 내 출입처 주제로 바꾸기 — 체크리스트</h2>
+<p>배달앱 사례를 따라 해 본 뒤, 본인 주제로 옮길 때 쓰는 목록.</p>
+<ul>
+<li>[ ] 주제를 <strong>한 문장</strong>으로 적었는가. (예: "○○의 △△는 누가 정하고 누가 부담하나")</li>
+<li>[ ] 2-1절 <strong>세 조건</strong>을 모두 만족하는가.</li>
+<li>[ ] 2-2절 <strong>15분 사전 점검</strong>을 실제로 돌려 봤는가.</li>
+<li>[ ] 세 소스에 겹치는 개체가 <strong>2개 이상</strong> 나왔는가.</li>
+<li>[ ] 새 폴더를 만들고 <code>.claude/</code>·<code>CLAUDE.md</code>를 복사했는가.</li>
+<li>[ ] <code>.venv</code>를 새로 만들고 <code>requirements.txt</code>로 패키지를 복원했는가.</li>
+<li>[ ] <code>QUERIES</code>를 쟁점별 3~5개로 나눠 넣었는가.</li>
+<li>[ ] DART <strong>정식 법인명</strong>을 실제 조회로 확인했는가.</li>
+<li>[ ] 의안 검색어를 <strong>법률 용어</strong>로 바꿨는가.</li>
+<li>[ ] 브라우저 수집 대상 부처·기관을 교체했는가.</li>
+<li>[ ] 쟁점의 분기점이 DART 조회 기간 안에 들어가는가.</li>
+<li>[ ] 7장의 <strong>바꾸지 않는 것</strong>을 건드리지 않았는가.</li>
+</ul>
+<hr />
+<h2 id="10">10. 90분 진행 순서 (전환 실습)</h2>
+<p>세 막을 이미 마친 수강생 대상. 전 과정을 다시 돌리지 않고 <strong>바꾸는 지점만</strong> 훑는 구성.</p>
+<ul>
+<li><strong>0부(10분)</strong>: 왜 주제를 바꿔 보나 — 파이프라인과 주제의 분리. 1-2절 변경 지도 화면에 띄우기.</li>
+<li><strong>1부(15분)</strong>: 2-2절 <strong>15분 사전 점검</strong>을 각자 실행. 세 소스에서 겹치는 개체 찾기.</li>
+<li><strong>2부(15분)</strong>: 새 폴더 만들고 설정 복사, <code>.venv</code> 재생성, <code>QUERIES</code> 교체 후 뉴스 수집.</li>
+<li><strong>3부(20분)</strong>: <strong>법인명 찾기</strong>(5-1절)와 <code>fetch_dart.py</code>·<code>fetch_assembly.py</code> 교체. 이 회차의 승부처.</li>
+<li><strong>4부(15분)</strong>: 1막 질문 목록 생성. 해상풍력 때와 <strong>형식은 같고 내용만 다른</strong> 것을 확인.</li>
+<li><strong>5부(10분)</strong>: 두 주제의 앵글 후보 비교(6장). 뉴스가치 강조점이 왜 달라지는지 토론.</li>
+<li><strong>6부(5분)</strong>: 9장 체크리스트로 본인 출입처 주제 검토.</li>
+</ul>
+<blockquote>
+<p><strong>강사 메모</strong> — 3부가 승부처임. "배민"으로 조회했다가 <code>[찾을 수 없음]</code>이 뜨고, 정식 법인명으로 바꿔 조회에 성공하는 장면을 <strong>일부러 겪게</strong> 할 것. 공공데이터가 브랜드가 아니라 법인 단위로 관리된다는 사실이 이 한 장면으로 각인됨.</p>
+<p>또 하나 유용한 장면은 <strong>비상장사의 공시 건수가 적게 나오는 것</strong>. "데이터가 없다"가 아니라 "제도가 달라서 다른 문서를 봐야 한다"로 해석을 바꿔 주면, 공개기록 취재의 감각이 한 단계 올라감.</p>
+</blockquote>
+<hr />
+<h2 id="codex">Codex로 만들기</h2>
+<p>주제 전환 자체는 <strong>값을 바꾸는 작업</strong>이라 도구와 무관함. Claude Code든 OpenAI Codex든 고치는 곳이 완전히 같음.</p>
+<h3 id="codex-same">1. 도구가 달라도 같은 것</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>바꾸는 대상</th><th>Claude Code</th><th>OpenAI Codex</th></tr>
+</thead>
+<tbody>
+<tr><td><code>collect_news.py</code>의 <code>QUERIES</code></td><td colspan="2" style="text-align:center">동일 — 파이썬 파일</td></tr>
+<tr><td><code>fetch_dart.py</code>의 <code>COMPANIES</code>·기간</td><td colspan="2" style="text-align:center">동일 — 파이썬 파일</td></tr>
+<tr><td><code>fetch_assembly.py</code>의 <code>KEYWORDS</code></td><td colspan="2" style="text-align:center">동일 — 파이썬 파일</td></tr>
+<tr><td>브라우저 수집 대상</td><td colspan="2" style="text-align:center">동일 — 프롬프트 문장</td></tr>
+<tr><td>실행 프롬프트의 <code>&lt;주제&gt;</code></td><td colspan="2" style="text-align:center">동일 — 자연어</td></tr>
+</tbody>
+</table></div>
+<h3 id="codex-diff">2. 도구별로 다른 것</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>항목</th><th>Claude Code</th><th>OpenAI Codex</th></tr>
+</thead>
+<tbody>
+<tr><td>프로젝트 지침 파일</td><td><code>CLAUDE.md</code></td><td><code>AGENTS.md</code></td></tr>
+<tr><td>서브에이전트 예시 문구 수정</td><td><code>.claude/agents/*.md</code></td><td><code>.codex/agents/*.toml</code>의 <code>developer_instructions</code></td></tr>
+<tr><td>새 폴더로 복사할 것</td><td><code>CLAUDE.md</code> + <code>.claude/</code></td><td><code>AGENTS.md</code> + <code>.codex/</code> (+ 스킬 경로)</td></tr>
+<tr><td>실행</td><td><code>claude</code></td><td><code>codex</code> → <code>/plan</code> → <code>/exec</code></td></tr>
+<tr><td>변경 확인</td><td>인라인 diff</td><td><code>/diff</code></td></tr>
+</tbody>
+</table></div>
+<h3 id="codex-run">3. Codex로 주제 전환하기 (전체 순서)</h3>
+<ol>
+<li><strong>새 폴더 준비</strong>
+<pre><code class="language-bash">mkdir newsroom_agent_2
+cd newsroom_agent_2
+Copy-Item ..\newsroom_agent\AGENTS.md .
+Copy-Item ..\newsroom_agent\.codex -Recurse
+Copy-Item ..\newsroom_agent\.env .
+Copy-Item ..\newsroom_agent\requirements.txt .
+
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+codex
+</code></pre>
+</li>
+<li><strong>사전 점검</strong> — 2-2절 프롬프트 세 개를 <code>/plan</code> 없이 그대로 사용(읽기만 하므로).</li>
+<li><strong>값 교체를 한 번에 지시</strong>
+<pre><code class="language-text">/plan
+주제를 &quot;해상풍력&quot;에서 &quot;배달앱 중개수수료&quot;로 바꾸려고 해. 아래 세 곳만 고쳐줘.
+1) collect_news.py 의 QUERIES → 배달앱 수수료 관련 쟁점별 4개
+2) fetch_dart.py 의 COMPANIES → 배달 플랫폼 운영 법인의 정식 법인명.
+   먼저 .cache/CORPCODE.xml 에서 확인하고, 못 찾으면 후보를 알려줘. 기간은 2024-01-01~2026-06-30
+3) fetch_assembly.py 의 KEYWORDS → 법률 제목에 실제로 쓰이는 용어로
+서브에이전트 지침과 스킬 절차는 건드리지 마.
+</code></pre>
+</li>
+<li><strong>확인</strong>
+<pre><code class="language-text">/exec
+</code></pre>
+<pre><code class="language-text">/diff
+</code></pre>
+</li>
+<li><strong>1막 실행</strong> — 4-3절 프롬프트를 그대로 사용.</li>
+</ol>
+<h3 id="codex-caution">4. Codex를 쓸 때 주의할 점</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>항목</th><th>내용</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>"세 곳만" 명시</strong></td>
+<td>Codex는 지시를 문자 그대로 따르는 편이라 범위를 못 박으면 잘 지킴. 반대로 범위를 안 적으면 SKILL.md의 절차 문구까지 주제에 맞춰 고쳐 버릴 수 있음</td>
+</tr>
+<tr>
+<td><strong><code>/diff</code> 필수</strong></td>
+<td>특히 <code>fetch_dart.py</code>의 <code>COMPANIES</code>가 <strong>브랜드명이 아니라 법인명</strong>으로 바뀌었는지 눈으로 확인</td>
+</tr>
+<tr>
+<td><strong>법인명 검증은 코드로</strong></td>
+<td>AI가 기억으로 답한 법인명을 그대로 쓰지 말 것. 반드시 <code>CORPCODE.xml</code> 조회 결과로 확인. 사명 변경·분할이 잦음</td>
+</tr>
+<tr>
+<td><strong>웹검색 보완</strong></td>
+<td>새 주제의 법률·기관 이름을 찾을 때 검색이 필요함. 결과가 부실하면 검색 MCP(Tavily·Brave 등)를 <code>~/.codex/config.toml</code>에 추가</td>
+</tr>
+<tr>
+<td><strong>기존 산출물 오염 금지</strong></td>
+<td>반드시 새 폴더에서 진행. 같은 폴더에서 주제만 바꾸면 <code>2_facts/</code>에 두 주제의 사실이 섞여 되짚기가 무너짐</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>핵심</strong> — 주제가 바뀌어도 <strong>설계는 그대로</strong>. 이 문서에서 고친 것은 검색어·법인명·수집 대상 세 덩어리뿐이며, Q번호에서 F번호를 거쳐 기사 문장까지 이어지는 사슬은 손대지 않았음. 파이프라인이 제대로 만들어졌다는 증거임.</p>
+</blockquote>
+<blockquote>
+<p>회사명·법률명·기관명·API 파라미터는 2026년 8월 기준 예시이며 자주 바뀜. 실습 시점에 <strong>DART·열린국회정보 API로 직접 확인</strong>할 것.</p>
+</blockquote></div>
+    <div class="docfoot">부록 · 주제 바꾸기 — 새 주제를 세 막 전체에 적용하기 · 관련 문서: <a href="./plan.html">1막 · 기획</a> · <a href="./reporting.html">2막 · 취재</a> · <a href="./writing.html">3막 · 보도</a> · 처음으로: <a href="./index.html">학습 허브</a></div>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.querySelectorAll('main pre').forEach(function(pre){
+  var code=pre.querySelector('code'); var lang='';
+  if(code){(code.className||'').split(' ').forEach(function(c){if(c.indexOf('language-')===0)lang=c.slice(9);});}
+  var card=document.createElement('div'); card.className='code-card';
+  var head=document.createElement('div'); head.className='code-head';
+  head.innerHTML='<div style="display:flex;align-items:center"><span class="code-dots"><i></i><i></i><i></i></span><span class="code-lang">'+(lang||'code')+'</span></div>';
+  var btn=document.createElement('button'); btn.className='code-copy'; btn.textContent='복사';
+  btn.addEventListener('click',function(){
+    navigator.clipboard.writeText(code?code.innerText:pre.innerText).then(function(){
+      btn.textContent='복사됨'; btn.classList.add('copied');
+      setTimeout(function(){btn.textContent='복사'; btn.classList.remove('copied');},1400);
+    });
+  });
+  head.appendChild(btn);
+  pre.parentNode.insertBefore(card,pre); card.appendChild(head); card.appendChild(pre);
+  if(window.hljs && code){try{hljs.highlightElement(code);}catch(e){}}
+});
+document.querySelectorAll('.wrap blockquote').forEach(function(bq){
+  if(bq.classList.contains('warn')||bq.classList.contains('keep')) return;
+  var t=bq.textContent;
+  if(/주의|반드시|위험|금지|말 것/.test(t)) bq.classList.add('warn');
+});
+var links=[].slice.call(document.querySelectorAll('#toc a'));
+var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var heads=[].slice.call(document.querySelectorAll('main h2, main h3'));
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      links.forEach(function(a){a.classList.remove('active')});
+      var a=map[e.target.id]; if(a){a.classList.add('active'); a.scrollIntoView({block:'nearest'});}
+    }
+  });
+},{rootMargin:'0px 0px -78% 0px', threshold:0});
+heads.forEach(function(h){if(h.id)obs.observe(h);});
+</script>
+</body>
+</html>

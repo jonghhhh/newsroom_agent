@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1막 · 기획 — 배경 파악부터 질문 목록까지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+:root{
+  --paper:#ffffff; --wash:#f5f6f9; --ink:#16171d; --body:#33353f; --muted:#71747f;
+  --accent:#5a40e8; --accent-soft:#efeaff; --accent-line:#cabfff;
+  --line:#e7e8ee; --code-bg:#1d1e26; --warn:#b4631a; --warn-soft:#fdf1e3; --warn-line:#f0cfa0;
+  --maxw:1200px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--wash); color:var(--body);
+  font-family:"Pretendard","Pretendard Variable",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16.5px; line-height:1.75; letter-spacing:-0.01em;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:262px minmax(0,1fr); gap:0; align-items:start}
+aside{position:sticky; top:0; height:100vh; overflow-y:auto; padding:34px 18px 60px 26px; border-right:1px solid var(--line); background:var(--paper)}
+.brandmark{font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; margin-bottom:4px}
+.brandsub{font-size:13px; color:var(--muted); margin-bottom:22px; line-height:1.5}
+nav{display:flex; flex-direction:column; gap:1px; border-left:2px solid var(--line)}
+nav a{display:block; text-decoration:none; color:var(--muted); padding:5px 0 5px 14px; margin-left:-2px; border-left:2px solid transparent; font-size:13.5px; transition:color .15s,border-color .15s}
+nav a:hover{color:var(--ink)}
+nav a.nav-h2{color:var(--body); font-weight:650; margin-top:8px}
+nav a.nav-h3{font-size:12.8px; padding-left:26px}
+nav a.active{color:var(--accent); border-left-color:var(--accent); font-weight:650}
+main{background:var(--paper); padding:0 0 90px; min-width:0}
+.wrap{max-width:820px; margin:0 auto; padding:0 40px}
+.hero{padding:64px 40px 40px; background:
+   radial-gradient(120% 100% at 0% 0%, #f3f0ff 0%, rgba(243,240,255,0) 55%),
+   linear-gradient(180deg,#fbfbfe,#ffffff); border-bottom:1px solid var(--line)}
+.hero .inner{max-width:820px; margin:0 auto}
+.hero h1{font-size:clamp(30px,4.4vw,46px); line-height:1.12; letter-spacing:-0.03em; color:var(--ink); margin:0 0 14px; font-weight:800}
+.hero h3{font-size:16px; font-weight:600; color:var(--accent); margin:0 0 26px; letter-spacing:-0.01em}
+.hero blockquote{margin:0; padding:20px 22px; background:var(--paper); border:1px solid var(--line);
+   border-radius:14px; box-shadow:0 1px 0 rgba(20,20,30,.02); font-size:14.5px; color:var(--body)}
+.hero blockquote p{margin:.28em 0}
+.hero blockquote strong{color:var(--ink)}
+h2{font-size:25px; font-weight:780; color:var(--ink); letter-spacing:-0.02em; line-height:1.3;
+   margin:62px 0 18px; padding-top:18px; border-top:1px solid var(--line); scroll-margin-top:18px}
+.wrap > h2:first-child{border-top:none; margin-top:30px}
+h3{font-size:18.5px; font-weight:720; color:var(--ink); letter-spacing:-0.015em; margin:34px 0 12px; scroll-margin-top:18px}
+h2 + h3{margin-top:18px}
+h4{font-size:15.5px; font-weight:700; color:var(--ink); margin:22px 0 8px}
+p{margin:.7em 0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-line)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink); font-weight:700}
+hr{border:none; border-top:1px solid var(--line); margin:40px 0}
+ul,ol{margin:.6em 0; padding-left:1.35em}
+li{margin:.32em 0}
+li::marker{color:var(--accent)}
+ul ul,ol ul,ul ol{margin:.2em 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.86em; background:#f0f0f4; color:#4632c4;
+   padding:.14em .42em; border-radius:6px; border:1px solid #e6e5ef; letter-spacing:0}
+.code-card{margin:18px 0; border-radius:12px; overflow:hidden; border:1px solid #2a2b36; box-shadow:0 6px 22px -12px rgba(20,20,40,.35)}
+.code-head{display:flex; align-items:center; justify-content:space-between; background:#15161d; padding:8px 14px; border-bottom:1px solid #2a2b36}
+.code-dots{display:flex; gap:6px}
+.code-dots i{width:11px; height:11px; border-radius:50%; display:block}
+.code-dots i:nth-child(1){background:#ff5f57}.code-dots i:nth-child(2){background:#febc2e}.code-dots i:nth-child(3){background:#28c840}
+.code-lang{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8b8d9a; margin-left:10px}
+.code-copy{font-family:"Pretendard",sans-serif; font-size:12px; font-weight:600; color:#c5c7d4; background:#262732;
+   border:1px solid #34353f; border-radius:7px; padding:4px 11px; cursor:pointer; transition:.15s}
+.code-copy:hover{background:#31323e; color:#fff}
+.code-copy.copied{background:var(--accent); border-color:var(--accent); color:#fff}
+.code-card pre{margin:0; background:var(--code-bg); padding:16px 16px; overflow-x:auto}
+.code-card pre code{background:none; border:none; padding:0; color:#e6e6ed; font-size:13.3px; line-height:1.65; letter-spacing:0}
+.tbl{margin:20px 0; overflow-x:auto; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:560px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:var(--accent-soft); color:#2c2480; font-weight:700; border-bottom:1px solid var(--accent-line); letter-spacing:-0.01em}
+tbody tr:nth-child(even){background:#fafafc}
+tbody tr:last-child td{border-bottom:none}
+td code,th code{font-size:.82em}
+.wrap blockquote{margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+   border:1px solid var(--accent-line); border-left:4px solid var(--accent); border-radius:10px; color:#3a356b; font-size:14.5px}
+.wrap blockquote p{margin:.3em 0}
+.wrap blockquote strong{color:#2c2480}
+.wrap blockquote code{background:#fff; color:#4632c4}
+.wrap blockquote.warn{background:var(--warn-soft); border-color:var(--warn-line); border-left-color:var(--warn); color:#6e4314}
+.wrap blockquote.warn strong{color:var(--warn)}
+.wrap blockquote.warn code{color:#9a5316}
+.docfoot{max-width:820px; margin:50px auto 0; padding:22px 40px 0; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  aside{display:none}
+  .wrap,.hero .inner,.hero,.docfoot{padding-left:22px; padding-right:22px}
+}
+@media print{
+  body{background:#fff; font-size:11pt}
+  aside,.code-copy{display:none}
+  .layout{display:block}
+  .code-card{break-inside:avoid; border-color:#ccc}
+  .code-card pre{background:#f5f5f7}
+  .code-card pre code{color:#1d1e26}
+  .code-head{background:#eee}
+  .tbl,table{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{color:inherit; border:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brandmark">ACT 1 · PLAN</div>
+    <div class="brandsub">1막 · 기획<br>배경 요약 · 질문 목록</div>
+    <nav id="toc"><a class="nav-h2" href="#1">1. 무엇을 만들고, 무엇을 경험하나</a>
+<a class="nav-h3" href="#1-1-q">1-1. 진짜 산출물은 '질문 목록'이다</a>
+<a class="nav-h2" href="#2">2. 폴더 구조</a>
+<a class="nav-h2" href="#3">3. 준비</a>
+<a class="nav-h3" href="#3-1-claude-code">3-1. 폴더 만들고 Claude Code 실행</a>
+<a class="nav-h3" href="#3-2-uv">3-2. 파이썬 환경 (.venv + pip)</a>
+<a class="nav-h3" href="#3-3-api">3-3. 네이버 검색 API 키</a>
+<a class="nav-h2" href="#4">4. 설정 파일 만들기</a>
+<a class="nav-h3" href="#4-1-claudemd">4-1. CLAUDE.md</a>
+<a class="nav-h3" href="#4-2-claudeagentsnews-archivistmd">4-2. 서브에이전트 — .claude/agents/news-archivist.md</a>
+<a class="nav-h3" href="#4-3-claudeagentsweb-researchermd">4-3. 서브에이전트 — .claude/agents/web-researcher.md</a>
+<a class="nav-h3" href="#4-4-claudeskillsbackground-collectskillmd">4-4. 스킬 — .claude/skills/background-collect/SKILL.md</a>
+<a class="nav-h3" href="#4-5-claudeskillsbackground-briefskillmd">4-5. 스킬 — .claude/skills/background-brief/SKILL.md</a>
+<a class="nav-h3" href="#4-6-claudeskillsreporting-planskillmd">4-6. 스킬 — .claude/skills/reporting-plan/SKILL.md</a>
+<a class="nav-h2" href="#5">5. 실행</a>
+<a class="nav-h3" href="#5-1">5-1. 인수인계 점검</a>
+<a class="nav-h2" href="#6">6. 윤리와 저작권 (반드시)</a>
+<a class="nav-h2" href="#7-2">7. 2시간 진행 순서</a>
+<a class="nav-h2" href="#codex">Codex로 만들기</a>
+<a class="nav-h3" href="#codex-run">Codex 실행 순서 (1막 전체)</a>
+<a class="nav-h3" href="#codex-caution">Codex 사용 시 주의점</a></nav>
+  </aside>
+  <main>
+    <header class="hero"><div class="inner"><h1 id="_1">1막 · 기획 — 배경 파악부터 질문 목록까지</h1>
+<h3 id="_2">과거 기사 수집 · 배경 요약 · 취재 계획을 스킬로 한 번에</h3>
+<blockquote>
+<p><strong>대상</strong>: 1차 특강(입문·심화)을 들은 기자 — <strong>2차 실습의 첫 회차 (2시간)</strong><br>
+<strong>도구</strong>: Claude Code + 네이버 뉴스 검색 API(과거 기사) + 내장 WebSearch(웹 배경)<br>
+<strong>목표</strong>: 취재 주제 한 마디로 배경을 논리적으로 요약하고, <strong>2막에서 답을 찾아야 할 질문 목록 Q1·Q2·Q3…</strong>가 담긴 취재 계획 작성<br>
+<strong>핵심 원칙</strong>: 기사 전문은 복제하지 않고 링크로. 취재 계획은 초안이며 판단·섭외·게재는 사람 기자의 몫</p>
+</blockquote>
+</div></header>
+    <div class="wrap">
+<h2 id="1">1. 무엇을 만들고, 무엇을 경험하나</h2>
+<p>"이 주제 취재 기획해줘" 한 마디면 다음 순서로 진행됩니다.</p>
+<pre><code class="language-text">&quot;&lt;취재 주제&gt;&quot;
+   │
+   ▼ 1. 과거 기사 수집   네이버 뉴스 API로 기사 메타·링크 (news-archivist 서브에이전트)
+   │
+   ▼ 2. 웹 배경 보완     정의·연혁·통계·해외 사례·핵심 문서 (web-researcher 서브에이전트)
+   │
+   ▼ 3. 배경 요약·구성   타임라인·인물/기관·쟁점·언론사 프레임 (background-brief 스킬)
+   │
+   ▼ 4. 취재 계획 설계   핵심 질문·필요 자료·인터뷰 대상·현장 취재 (reporting-plan 스킬)
+   │
+   ▼ 1_plan/reporting_plan.md   ← 2막의 입력이 되는 파일
+</code></pre>
+<p>스킬을 '모드'처럼 씀. 수집은 서브에이전트가, 요약과 계획은 각각의 스킬이 맡아 <strong>필요하면 한 단계만 따로 실행 가능</strong>.</p>
+<h3 id="1-1-q">1-1. 이 회차의 진짜 산출물은 '질문 목록'</h3>
+<p>취재 계획 문서는 읽고 끝나는 보고서가 아님. 이 회차가 만들어야 할 핵심은 <strong>번호가 붙은 질문 목록</strong>임.</p>
+<pre><code class="language-text">Q1  해상풍력 인허가에 평균 몇 개월이 걸리고, 가장 오래 걸린 사업은 무엇인가?
+Q2  특별법 통과 전후로 특정 사업자의 수주가 늘었는가?
+Q3  국산화율 목표치는 누가 정했고, 실제 달성률은 얼마인가?
+...
+</code></pre>
+<p>번호를 붙이는 이유는 <strong>추적</strong>. 2막에서 모은 자료는 "어느 질문에 답하려고 가져온 것"인지 Q번호로 묶이고, 3막의 기사 문장은 그 사슬을 거슬러 올라가 원문 몇 쪽까지 되짚힘. <strong>이 번호가 세 회차를 하나로 잇는 고리</strong>임.</p>
+<p>따라서 질문은 <strong>공개기록으로 확인 가능한 형태</strong>여야 함.</p>
+<ul>
+<li>좋음: "인허가에 평균 몇 개월 걸렸나?" → 인허가 대장·보도자료로 답이 나옴.</li>
+<li>나쁨: "해상풍력은 바람직한가?" → 자료로 답이 안 나옴. 취재 계획에 넣지 않음.</li>
+</ul>
+<p>이 회차에서 경험하는 네 기능:</p>
+<ul>
+<li><strong>CLAUDE.md</strong>: 취재 규칙(출처 명기, 기사 전문 복제 금지, 추측 금지)과 작업 순서를 담아 자동 적용. <strong>여기서 한 번 만들면 2·3막에서 그대로 사용</strong>.</li>
+<li><strong>서브에이전트(2개)</strong>: 뉴스 아카이브 수집과 웹 배경을 각각 독립 문맥에서 처리.</li>
+<li><strong>스킬(3개)</strong>: 수집 스크립트, 배경 요약·논리 구성, 취재 계획 설계의 표준 절차.</li>
+<li><strong>API</strong>: 과거 기사는 네이버 뉴스 검색 API, 웹 배경은 내장 WebSearch.</li>
+</ul>
+<hr />
+<h2 id="2">2. 폴더 구조</h2>
+<p>2차 실습은 <strong>세 회차가 하나의 폴더를 함께 씀</strong>. 1막에서 만든 <code>CLAUDE.md</code>·<code>.venv</code>·<code>.env</code>는 2·3막에서 다시 만들지 않음.</p>
+<pre><code class="language-text">newsroom_agent/                    ← 2차 실습 내내 쓰는 단 하나의 폴더
+├── CLAUDE.md            # 취재 규칙 + 작업 순서 + 윤리  (1막에서 작성 → 계속 사용)
+├── .venv/               # 파이썬 가상환경 (gitignore). 패키지는 여기에만 설치
+├── requirements.txt     # 설치한 패키지 목록. 이것만 공유한다
+├── .env                 # API 키 (gitignore)
+├── 1_plan/              # ★ 이번 회차 산출물
+│   ├── background_raw.md      # 과거 기사 메타
+│   ├── background_web.md      # 웹 배경
+│   ├── background_brief.md    # 배경 브리프
+│   └── reporting_plan.md      # 취재 계획 + 질문 Q1·Q2·Q3…  → 2막 입력
+├── 2_sources/           # (2막에서 생성)
+├── 2_facts/             # (2막에서 생성)
+├── 3_story/             # (3막에서 생성)
+└── .claude/
+    ├── agents/
+    │   ├── news-archivist.md      # 서브에이전트: 과거 기사 수집
+    │   └── web-researcher.md      # 서브에이전트: 웹 배경 보완
+    └── skills/
+        ├── background-collect/SKILL.md   # 스킬: 뉴스 수집 스크립트
+        ├── background-collect/collect_news.py
+        ├── background-brief/SKILL.md      # 스킬: 배경 요약·논리 구성
+        └── reporting-plan/SKILL.md        # 스킬: 취재 계획 설계
+</code></pre>
+<hr />
+<h2 id="3">3. 준비</h2>
+<h3 id="3-1-claude-code">3-1. 폴더 만들고 Claude Code 실행</h3>
+<p>이 폴더는 세 회차 내내 사용. 이름을 바꾸거나 지우지 말 것.</p>
+<pre><code class="language-bash">mkdir newsroom_agent &amp;&amp; cd newsroom_agent
+claude
+</code></pre>
+<h3 id="3-2-uv">3-2. 파이썬 환경 (.venv + pip)</h3>
+<p>API 호출에 파이썬을 씀. 세 회차 모두 <strong>파이썬 기본 기능인 <code>venv</code> + <code>pip</code></strong>로 통일. 새로 배울 도구 없음.</p>
+<p><strong>① 가상환경 만들기</strong> — 프로젝트에 한 번만.</p>
+<pre><code class="language-bash"># Windows
+python -m venv .venv
+
+# macOS / Linux
+python3 -m venv .venv
+</code></pre>
+<p><strong>② 활성화</strong> — 터미널을 새로 열 때마다 필요. 입력줄 앞에 <code>(.venv)</code>가 붙으면 성공.</p>
+<pre><code class="language-bash"># Windows · PowerShell
+.venv\Scripts\Activate.ps1
+
+# macOS / Linux
+source .venv/bin/activate
+</code></pre>
+<p><strong>③ 패키지 설치</strong> — 반드시 <code>(.venv)</code>가 켜진 상태에서.</p>
+<pre><code class="language-bash">pip install requests python-dotenv
+pip freeze &gt; requirements.txt
+</code></pre>
+<p><strong>④ 실행</strong> — 활성화 상태에서 그냥 <code>python</code>.</p>
+<pre><code class="language-bash">python .claude/skills/background-collect/collect_news.py
+</code></pre>
+<ul>
+<li><code>.venv/</code>와 <code>.env</code>는 <code>.gitignore</code>에 넣을 것. 공유는 <code>requirements.txt</code>로만.</li>
+<li>VS Code에서 <code>Ctrl+Shift+P</code> → <strong>Python: Select Interpreter</strong> → <code>.venv</code> 선택하면 터미널이 자동 활성화됨.</li>
+<li>막히면 Claude Code에 "내 OS는 Windows야. <code>.venv</code>를 만들고 활성화하는 명령을 알려줘"라고 요청.</li>
+</ul>
+<blockquote class="warn">
+<p><strong>가장 흔한 사고 두 가지</strong> — ① <code>ModuleNotFoundError</code>는 대개 <strong>활성화를 안 한 상태</strong>로 실행한 경우임. <code>(.venv)</code> 표시부터 확인. ② Windows PowerShell에서 활성화 스크립트가 차단되면 <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>를 한 번 실행한 뒤 재시도. 자세한 내용은 <a href="./vibecoding_basic.html#venv">입문 가이드 사전 준비 2</a>.</p>
+</blockquote>
+<h3 id="3-3-api">3-3. 네이버 검색 API 키</h3>
+<p>developers.naver.com에서 애플리케이션을 등록하고 <strong>검색</strong> API를 추가하면 Client ID와 Secret 발급. 무료·즉시 발급. 프로젝트 루트의 <code>.env</code>에 저장.</p>
+<pre><code class="language-bash">NAVER_CLIENT_ID=발급받은_ID
+NAVER_CLIENT_SECRET=발급받은_SECRET
+</code></pre>
+<p>웹 배경 보완은 Claude Code 내장 WebSearch로 처리. 추가 설정 불필요.</p>
+<blockquote>
+<p><strong>네이버 뉴스 API의 한계를 미리 알아 둘 것.</strong> 한 검색어당 최대 1000건, 최신순 정렬 시 <strong>최근 몇 주치에서 끊김</strong>. 실제로 검색어 3개로 848건을 모았을 때 기간이 약 6주에 그침.</p>
+<p>따라서 몇 년에 걸친 장기 배경은 이 API만으로 채울 수 없음. 두 가지로 보완.</p>
+<p>① 정렬을 <code>sim</code>(정확도순)으로 바꿔 다른 구간을 한 번 더 수집.<br>
+② 연혁·초기 경과는 <code>web-researcher</code> 서브에이전트의 WebSearch로 1차 출처(정부 보도자료·기관 보고서)에서 확보.</p>
+<p>소속 언론사가 빅카인즈 API를 쓸 수 있다면 이 단계를 빅카인즈로 교체하는 편이 나음. 104개 매체의 장기 아카이브와 인용문·개체명을 함께 제공하기 때문.</p>
+</blockquote>
+<hr />
+<h2 id="4">4. 설정 파일 만들기</h2>
+<h3 id="4-1-claudemd">4-1. CLAUDE.md</h3>
+<p>이 파일이 <strong>세 회차가 공유하는 근무 수칙</strong>. 1막에서 한 번 만들고, 2·3막에서는 해당 회차의 작업 순서만 덧붙임.</p>
+<pre><code class="language-markdown"># 취재보도 에이전트 프로젝트 규칙
+
+## 역할과 원칙 (세 회차 공통)
+- 너는 취재 보조다. 판단·섭외·게재 책임은 사람 기자에게 있다.
+- 사실·수치·인용은 지어내지 않는다. 근거가 없으면 [확인 필요].
+- 모든 항목에 출처(기사·문서·URL·쪽수)를 단다.
+- 기사 전문을 복제·저장하지 않는다. 메타데이터·짧은 인용·링크만 쓴다(저작권).
+- 인물 정보는 공개된 역할·직위 기준으로만 다루고, 사생활·미확인 혐의를 단정하지 않는다.
+- 모든 설명은 한국어로.
+
+## 폴더 규약 (세 회차 공통)
+- 1_plan/   기획 산출물 (이번 회차)
+- 2_sources/ 2_facts/  취재 산출물 (2막)
+- 3_story/  기사 산출물 (3막)
+- 앞 회차의 파일은 읽기만 하고 덮어쓰지 않는다.
+
+## 파이썬 실행 환경 (세 회차 공통)
+- 패키지는 프로젝트 폴더의 .venv 가상환경에 pip로만 설치한다. 전역 설치 금지.
+- 스크립트 실행 전 .venv 활성화 여부를 확인하고, 안 돼 있으면 활성화 방법을 사람에게 알려준다.
+- 패키지를 새로 설치하면 requirements.txt 를 갱신한다.
+- .venv/ 와 .env 는 .gitignore 에 넣는다.
+
+## 질문 번호 규약 (중요)
+- 취재 계획의 핵심 질문에는 Q1, Q2, Q3... 번호를 붙인다.
+- 이 번호는 2막에서 수집 자료를, 3막에서 기사 문장을 되짚는 고리다.
+- 한 번 부여한 번호는 바꾸지 않는다. 질문이 늘면 뒤에 이어 붙인다.
+
+## 이번 회차(1막) 작업 순서 (&quot;&lt;주제&gt; 취재 기획해줘&quot;라고 하면 이 순서로)
+1. news-archivist 서브에이전트로 과거 기사를 수집한다. → 1_plan/background_raw.md
+2. web-researcher 서브에이전트로 웹 배경을 보완한다. → 1_plan/background_web.md
+3. background-brief 스킬로 배경을 요약·논리 구성한다. → 1_plan/background_brief.md
+4. reporting-plan 스킬로 취재 계획을 설계한다. → 1_plan/reporting_plan.md (+ .html 보기용)
+각 단계마다 무엇을 했는지 한 줄로 보고한다. 한 단계만 실행하라고 하면 그 단계만 한다.
+
+## 윤리
+- 언론사별 프레임 비교는 편향 해석에 주의한다.
+- 인터뷰 대상·현장은 '제안'일 뿐, 실제 섭외·질문·촬영은 기자가 판단한다.
+- 명예훼손·프라이버시 위험이 있으면 멈추고 사람에게 알린다.
+</code></pre>
+<h3 id="4-2-claudeagentsnews-archivistmd">4-2. 서브에이전트 — .claude/agents/news-archivist.md</h3>
+<pre><code class="language-markdown">---
+name: news-archivist
+description: 뉴스 검색 API로 주제 관련 과거 기사를 수집할 때 사용.
+tools: Read, Write, Bash, WebSearch, WebFetch
+---
+너는 뉴스 아카이브 담당이다. 주제를 검색어 3~5개로 쪼갠 뒤 네이버 뉴스 검색 API로 기사 메타를 수집한다.
+- background-collect 스킬의 collect_news.py 의 QUERIES 를 주제에 맞게 고쳐 실행한다.
+  실행 전 .venv 가 활성화돼 있는지 확인한다. 안 돼 있으면 활성화부터 한다.
+- 검색어는 한 덩어리로 넣지 말고 쟁점별로 나눈다. 예: "해상풍력 인허가" / "해상풍력 국산화" / "해상풍력특별법".
+- 기사 전문을 복제·저장하지 않는다(저작권). 제목·일자·매체·링크·짧은 요약만.
+- 수집 후 반드시 기간을 확인한다. 최신순 정렬은 최근 몇 주에서 끊기므로,
+  기간이 짧으면 정렬을 sim(정확도순)으로 바꿔 한 번 더 돌려 합친다.
+- 결과를 1_plan/background_raw.md 에 저장하고, 수집 건수·실제 기간·매체 분포를 보고한다.
+- 특정 매체가 과도하게 몰려 있으면 그 사실을 함께 보고한다(프레임 비교의 왜곡 요인).
+</code></pre>
+<h3 id="4-3-claudeagentsweb-researchermd">4-3. 서브에이전트 — .claude/agents/web-researcher.md</h3>
+<pre><code class="language-markdown">---
+name: web-researcher
+description: 웹에서 주제의 정의·연혁·통계·해외 사례·핵심 문서를 보완할 때 사용.
+tools: WebSearch, WebFetch, Read, Write
+---
+너는 배경 리서치 담당이다. WebSearch로 신뢰할 1차 출처(정부·기관·학술·공식)를 우선 찾아 배경을 보완한다.
+- 정의·연혁·핵심 통계·해외 사례·관련 법·핵심 보고서를 URL·확인일과 함께 정리한다.
+- 확인 안 되면 [미확인]. 추측으로 메우지 않는다.
+- 결과를 1_plan/background_web.md 에 저장한다.
+- 뉴스 API가 최근 기사만 준다는 점을 감안해, 사안의 초기 경과·연혁은 특히 공들여 찾는다.
+</code></pre>
+<h3 id="4-4-claudeskillsbackground-collectskillmd">4-4. 스킬 — .claude/skills/background-collect/SKILL.md</h3>
+<pre><code class="language-markdown">---
+name: background-collect
+description: 네이버 뉴스 검색 API로 주제 관련 과거 기사를 수집할 때 사용한다.
+---
+# 과거 기사 수집 절차
+1. 주제를 쟁점별 검색어 3~5개로 나눈다. 한 덩어리 검색어는 결과가 좁아진다.
+2. collect_news.py 상단의 QUERIES 를 그 검색어로 고친다.
+3. .venv 활성화 후 실행한다:  python .claude/skills/background-collect/collect_news.py
+4. 출력된 '실제 기간'을 확인한다. 사안 대비 너무 짧으면 스크립트의 sort 를
+   "date" → "sim" 으로 바꿔 한 번 더 돌리고, 결과를 합친다.
+5. 기사 전문은 저장하지 않고 링크만 남긴다. API 호출 한도를 지킨다.
+</code></pre>
+<p>.claude/skills/background-collect/collect_news.py</p>
+<pre><code class="language-python">&quot;&quot;&quot;네이버 뉴스 검색 API로 주제 관련 과거 기사 메타를 모은다.
+
+기사 전문은 저장하지 않는다(저작권). 제목·언론사·날짜·링크만 남긴다.
+&quot;&quot;&quot;
+import html, json, os, pathlib, re, time, urllib.parse, urllib.request
+from collections import Counter
+from email.utils import parsedate_to_datetime
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# ── 여기만 고쳐 쓰세요 ────────────────────────────────
+QUERIES = [&quot;해상풍력 인허가&quot;, &quot;해상풍력 국산화&quot;, &quot;해상풍력특별법&quot;]
+MAX_PER_QUERY = 300          # 네이버 API 상한: 질의당 1000건
+SORT = &quot;date&quot;                # 최신순. 기간이 짧으면 &quot;sim&quot;(정확도순)으로 한 번 더
+OUT = pathlib.Path(&quot;1_plan&quot;) / &quot;background_raw.md&quot;
+# ────────────────────────────────────────────────────
+
+CID = os.environ[&quot;NAVER_CLIENT_ID&quot;]
+CSEC = os.environ[&quot;NAVER_CLIENT_SECRET&quot;]
+
+
+def strip_tags(s):
+    &quot;&quot;&quot;검색어 강조용 &lt;b&gt; 태그와 HTML 엔티티를 걷어낸다.&quot;&quot;&quot;
+    return html.unescape(re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot;&quot;, s or &quot;&quot;)).strip()
+
+
+def to_date(pub_date):
+    &quot;&quot;&quot;네이버가 주는 RFC822 날짜를 YYYY-MM-DD로. 타임라인 정렬에 필요하다.&quot;&quot;&quot;
+    try:
+        return parsedate_to_datetime(pub_date).strftime(&quot;%Y-%m-%d&quot;)
+    except (TypeError, ValueError):
+        return &quot;0000-00-00&quot;
+
+
+def search(query, want):
+    items, start = [], 1
+    while len(items) &lt; want and start &lt;= 1000:
+        qs = urllib.parse.urlencode(
+            {&quot;query&quot;: query, &quot;display&quot;: 100, &quot;start&quot;: start, &quot;sort&quot;: SORT}
+        )
+        req = urllib.request.Request(
+            f&quot;https://openapi.naver.com/v1/search/news.json?{qs}&quot;,
+            headers={&quot;X-Naver-Client-Id&quot;: CID, &quot;X-Naver-Client-Secret&quot;: CSEC},
+        )
+        with urllib.request.urlopen(req, timeout=20) as r:
+            batch = json.loads(r.read().decode(&quot;utf-8&quot;)).get(&quot;items&quot;, [])
+        if not batch:
+            break
+        items.extend(batch)
+        start += 100
+        time.sleep(0.1)          # 호출 한도를 지킨다
+    return items[:want]
+
+
+seen, rows = set(), []
+for q in QUERIES:
+    got = search(q, MAX_PER_QUERY)
+    print(f&quot;  {q}: {len(got)}건&quot;)
+    for it in got:
+        link = it.get(&quot;originallink&quot;) or it.get(&quot;link&quot;)
+        if not link or link in seen:
+            continue
+        seen.add(link)
+        rows.append({
+            &quot;date&quot;: to_date(it.get(&quot;pubDate&quot;, &quot;&quot;)),
+            &quot;title&quot;: strip_tags(it.get(&quot;title&quot;)),
+            &quot;desc&quot;: strip_tags(it.get(&quot;description&quot;))[:120],
+            &quot;link&quot;: link,
+            &quot;domain&quot;: urllib.parse.urlparse(link).netloc.replace(&quot;www.&quot;, &quot;&quot;),
+        })
+
+rows.sort(key=lambda r: r[&quot;date&quot;], reverse=True)
+
+OUT.parent.mkdir(parents=True, exist_ok=True)
+lines = [
+    &quot;# 배경 자료 — 과거 기사 메타&quot;, &quot;&quot;,
+    f&quot;검색어: {' / '.join(QUERIES)}&quot;,
+    f&quot;수집: {len(rows)}건 (중복 링크 제거 후)&quot;,
+    f&quot;기간: {rows[-1]['date']} ~ {rows[0]['date']}&quot; if rows else &quot;&quot;, &quot;&quot;,
+    &quot;&gt; 기사 전문은 저장하지 않는다. 확인은 링크로 원문에서 한다.&quot;, &quot;&quot;,
+]
+for i, r in enumerate(rows, 1):
+    lines += [
+        f&quot;## N{i:03d}  {r['title']}&quot;,
+        f&quot;- 매체: {r['domain']} | 일자: {r['date']}&quot;,
+        f&quot;- 요약: {r['desc']}&quot;,
+        f&quot;- 링크: {r['link']}&quot;, &quot;&quot;,
+    ]
+OUT.write_text(&quot;\n&quot;.join(lines), encoding=&quot;utf-8&quot;)
+
+print(f&quot;\n저장: {OUT}  ({len(rows)}건)&quot;)
+if rows:
+    print(f&quot;실제 기간: {rows[-1]['date']} ~ {rows[0]['date']}&quot;)
+print(&quot;매체 분포 상위 10:&quot;)
+for dom, n in Counter(r[&quot;domain&quot;] for r in rows).most_common(10):
+    print(f&quot;  {dom:&lt;28} {n:&gt;4}건&quot;)
+</code></pre>
+<blockquote>
+<p><strong>실제로 돌려 확인한 결과</strong> — 검색어 3개 · 질의당 300건으로 <strong>중복 제거 후 848건</strong> 수집. 뉴시스·비즈니스포스트·아주경제·매일경제·뉴스1·이데일리·전기신문 등으로 매체가 고르게 분포해 프레임 비교가 가능했음.</p>
+</blockquote>
+<h3 id="4-5-claudeskillsbackground-briefskillmd">4-5. 스킬 — .claude/skills/background-brief/SKILL.md</h3>
+<pre><code class="language-markdown">---
+name: background-brief
+description: 수집된 과거 기사·웹 배경을 요약하고 논리적으로 구성할 때 사용한다.
+---
+# 배경 브리프 작성 절차
+입력은 1_plan/background_raw.md 와 1_plan/background_web.md 다. 여기 있는 사실만 쓴다.
+1. 이슈 타임라인: 날짜순 핵심 사건. 기사 번호(N012 등)를 근거로 단다.
+2. 주요 인물·기관: 누가 관련되고 어떤 역할인지. 기업은 정식 법인명으로 적는다(2막에서 공시 조회에 쓴다).
+3. 핵심 쟁점: 무엇이 다투어지는지 2~4개로 정리.
+4. 언론사별 프레임 비교: 같은 사안을 어느 매체가 어떻게 틀 짓는지(근거 기사 표기). 해석은 신중히.
+   수집 매체가 한쪽에 몰려 있으면 그 사실을 먼저 밝히고 비교한다.
+5. 핵심 인용·팩트: 짧은 인용과 수치(출처 명기). 기사 전문은 복제하지 않고 링크한다.
+6. 미확인·공백: 아직 확인 안 된 것, 상충하는 정보.
+   ★ 이 6번이 다음 단계(취재 계획)의 질문 후보가 된다. 가장 공들여 쓴다.
+모든 항목에 출처(기사·URL)를 단다. 결과를 1_plan/background_brief.md 로 저장한다.
+</code></pre>
+<h3 id="4-6-claudeskillsreporting-planskillmd">4-6. 스킬 — .claude/skills/reporting-plan/SKILL.md</h3>
+<pre><code class="language-markdown">---
+name: reporting-plan
+description: 배경 브리프를 바탕으로 출처가 달린 취재 계획(질문·자료·인터뷰·현장)을 설계할 때 사용한다.
+---
+# 취재 계획 설계 절차
+입력은 1_plan/background_brief.md 다. 여기 있는 사실만 근거로 아래를 구성한다.
+1. 취재 목표·가설: 확인할 스토리 한 줄과 그 근거.
+2. ★ 핵심 질문 (이 회차의 핵심 산출물): 검증할 사실·쟁점을 질문 형태로 5~8개.
+   - Q1, Q2, Q3... 번호를 붙인다. 이 번호는 2·3막에서 계속 쓰이므로 절대 바꾸지 않는다.
+   - 각 질문은 공개기록으로 답이 나오는 형태여야 한다.
+     좋음: "인허가에 평균 몇 개월 걸렸나?"  나쁨: "해상풍력은 바람직한가?"
+   - 각 질문마다 [확인 방법]을 적는다. 어느 소스에서 무엇을 받아야 답이 나오는지.
+     예) Q2 → DART 정기공시에서 해당 법인의 수주 공시를 특별법 시행일 전후로 비교
+   - 각 질문마다 [근거]로 배경 브리프의 어느 항목에서 나온 의문인지 표시한다.
+3. 필요한 자료·데이터: Q번호별로 묶어서 적는다.
+   무엇을 어디서(공시=DART, 의안·회의록=열린국회정보, 뉴스=네이버, 그 외 기관 사이트).
+   2막에서 그대로 수집 목록으로 쓸 수 있게 기관명·검색어·기간까지 구체적으로.
+4. 인터뷰 대상 후보: 역할별로 나눈다(당사자, 담당 기관, 전문가, 이해관계자, 반대측).
+   각 후보에 왜 필요한지와 물어볼 질문 2~3개를 적고, 어느 Q에 답하는지 표시한다.
+   신원은 공개된 역할·직위 기준으로만 제안하고, 미확인 정보는 [확인 필요].
+5. 현장 취재: 확인·관찰·촬영할 장소와 시점, 무엇을 볼지. 안전·촬영 동의·사유지 등 유의사항.
+6. 예상 반론·리스크: 반대 측 주장, 오보 위험, 명예훼손·프라이버시 체크.
+7. 일정·우선순위: 먼저 확인할 것부터.
+모든 항목에 근거(기사·문서·URL)를 단다. 근거 없는 단정은 쓰지 않는다.
+결과를 1_plan/reporting_plan.md 로 저장한다. 이 파일이 2막의 입력이다.
+보기 좋은 1_plan/reporting_plan.html 도 함께 만든다(CSS 인라인, 상단에 주제·작성일,
+하단에 &quot;AI 초안이며 사람이 검토·확인해야 함&quot; 고지).
+</code></pre>
+<hr />
+<h2 id="5">5. 실행</h2>
+<p>준비가 끝나면 한 마디로 충분. <code>&lt;주제&gt;</code>만 바꿔 사용.</p>
+<pre><code class="language-text">&quot;해상풍력 인허가와 국산화율&quot; 취재 기획해줘. CLAUDE.md 순서대로 과거 기사 수집 →
+웹 배경 보완 → 배경 요약·구성 → 취재 계획 설계까지 진행하고, 단계마다 한 줄로 보고해.
+</code></pre>
+<p>스킬을 하나씩 '모드'처럼 따로 실행하는 것도 가능.</p>
+<pre><code class="language-text">news-archivist로 &quot;&lt;주제&gt;&quot; 과거 기사만 수집해줘.
+</code></pre>
+<pre><code class="language-text">background-brief 스킬로 배경을 요약·논리 구성만 해줘.
+</code></pre>
+<pre><code class="language-text">reporting-plan 스킬로 취재 계획(인터뷰 대상·현장 취재 포함)만 설계해줘.
+</code></pre>
+<p>큰 작업 전 Shift+Tab으로 플랜 모드에 들어가면, 어떤 서브에이전트·스킬이 언제 작동하는지 계획으로 먼저 확인 가능.</p>
+<h3 id="5-1">5-1. 회차를 마치기 전에 — 인수인계 점검</h3>
+<p>2막은 이 회차의 산출물을 그대로 입력으로 씀. 다음 회차에서 막히지 않으려면 끝내기 전에 세 가지 확인 필요.</p>
+<ul>
+<li><strong>질문에 번호가 붙어 있는가.</strong> Q1~Q8 정도. 번호 없는 질문은 2막에서 자료와 묶이지 않음.</li>
+<li><strong>각 질문이 공개기록으로 답이 나오는가.</strong> "어떻게 생각하나" 류는 제거.</li>
+<li><strong>기업·기관 이름이 정식 명칭인가.</strong> 2막에서 DART 공시를 법인명으로 조회하므로 "SK오션플랜트"처럼 정확해야 함. 약칭·별칭만 있으면 지금 바로잡을 것.</li>
+</ul>
+<p>Claude Code에 아래처럼 지시하면 한 번에 점검됨.</p>
+<pre><code class="language-text">1_plan/reporting_plan.md 를 읽고 인수인계 점검을 해줘.
+질문에 Q번호가 다 붙었는지, 각 질문이 공개기록으로 답이 나오는 형태인지,
+등장 기업·기관이 정식 명칭인지 확인하고 고칠 곳을 알려줘.
+</code></pre>
+<hr />
+<h2 id="6">6. 윤리와 저작권 (반드시)</h2>
+<ul>
+<li>기사 전문을 복제·저장하지 않음. 배경 브리프는 메타데이터·짧은 인용·요약·링크로 구성하고 원문은 링크로 연결.</li>
+<li>언론사별 프레임 비교는 참고일 뿐. 특정 매체를 단정적으로 재단하지 않음.</li>
+<li>인터뷰 대상·질문·현장 취재는 '제안'. 실제 섭외·질문·촬영은 기자가 판단하고 촬영 동의·사유지·안전을 준수.</li>
+<li>인물은 공개된 역할·전문성 기준으로만 다루고, 사생활·미확인 혐의를 단정하지 않음.</li>
+<li>취재 계획은 초안. 데스크·기자가 검토하며 최종 책임은 사람에게 있음.</li>
+</ul>
+<hr />
+<h2 id="7-2">7. 2시간 진행 순서</h2>
+<ul>
+<li>0부(10분): 왜 배경부터인가 — "처음 맡은 주제를 30분에 파악"하고 질문 목록으로 잇기. 세 회차 전체 지도 보여주기.</li>
+<li>1부(20분): 세팅 — <code>newsroom_agent/</code> 생성, <code>.venv</code> 만들고 활성화, <code>pip install</code>, <code>.env</code>(네이버 키), CLAUDE.md, 서브에이전트·스킬 파일.</li>
+<li>2부(30분): 과거 기사 수집·웹 배경 보완. 수집 기간과 매체 분포 확인.</li>
+<li>3부(25분): 배경 요약·논리 구성(타임라인·쟁점·프레임·공백).</li>
+<li>4부(25분): 취재 계획 설계 — <strong>질문 Q1~Q8에 번호 붙이기</strong>, 질문별 확인 방법 적기.</li>
+<li>5부(10분): 인수인계 점검과 윤리·저작권 확인. 2막에서 무엇을 하는지 예고.</li>
+</ul>
+<blockquote>
+<p>강사 메모: 4부가 이 회차의 승부처입니다. 배경 요약은 AI가 잘하지만, <strong>"자료로 답이 나오는 질문"으로 벼리는 일</strong>은 기자의 감각이 필요합니다. 수강생이 쓴 질문을 두세 개 띄워 놓고 "이건 어느 문서를 받아야 답이 나오나?"를 함께 되물으면, 2막의 수집 목록이 자연스럽게 만들어집니다.</p>
+</blockquote>
+<hr />
+<h2 id="codex">Codex로 만들기</h2>
+<p>이 실습은 Claude Code 기준이지만 <strong>OpenAI Codex로도 그대로 진행 가능</strong>. 개념이 1:1로 대응되고 파일 이름·형식과 실행 명령만 다름. 수강생 중 ChatGPT 구독자가 많다면 이 절을 기준으로 진행할 것.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>개념</th>
+<th>Claude Code</th>
+<th>OpenAI Codex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프로젝트 지침</td>
+<td>CLAUDE.md</td>
+<td>AGENTS.md (내용 동일)</td>
+</tr>
+<tr>
+<td>스킬</td>
+<td>.claude/skills/&lt;이름&gt;/SKILL.md</td>
+<td>SKILL.md (자동 로드, 호출은 <code>$이름</code>)</td>
+</tr>
+<tr>
+<td>서브에이전트</td>
+<td>.claude/agents/&lt;이름&gt;.md</td>
+<td>.codex/agents/&lt;이름&gt;.toml</td>
+</tr>
+<tr>
+<td>MCP 연결</td>
+<td>.mcp.json</td>
+<td>~/.codex/config.toml 의 [mcp_servers]</td>
+</tr>
+<tr>
+<td>실행</td>
+<td>claude</td>
+<td>codex</td>
+</tr>
+<tr>
+<td>계획·검토</td>
+<td>Shift+Tab 플랜 · /review</td>
+<td>/plan · /review</td>
+</tr>
+<tr>
+<td>권한</td>
+<td>승인 프롬프트</td>
+<td>샌드박스(read-only / workspace-write / danger-full-access)</td>
+</tr>
+</tbody>
+</table></div>
+<p>바꿀 것은 다음뿐입니다.</p>
+<ol>
+<li>
+<p>CLAUDE.md를 AGENTS.md로 이름만 바꿉니다(내용 그대로).</p>
+</li>
+<li>
+<p>서브에이전트(news-archivist·web-researcher)를 .codex/agents/&lt;이름&gt;.toml 로 옮깁니다. 마크다운 프론트매터 대신 TOML 키(name·description·developer_instructions)를 씁니다.</p>
+</li>
+</ol>
+<pre><code class="language-toml"># .codex/agents/web-researcher.toml
+name = &quot;web-researcher&quot;
+description = &quot;...&quot;            # 기존 description 그대로
+developer_instructions = &quot;&quot;&quot;
+... 기존 지침 본문 그대로 ...
+&quot;&quot;&quot;
+</code></pre>
+<ol start="3">
+<li>스킬(background-collect·background-brief·reporting-plan)은 SKILL.md 형식이 동일. 위치만 Codex 규칙(프로젝트 스킬 또는 <code>~/.agents/skills/</code>)에 맞추고, 대화에서 <code>$스킬이름</code>으로 호출.</li>
+</ol>
+<p><strong>바뀌지 않는 것</strong> — <code>.venv</code> 가상환경, <code>pip install</code>, <code>collect_news.py</code> 스크립트, 네이버 API 키, 폴더 구조, 프롬프트 문장. 이 실습은 별도 MCP 없이 Codex 내장 기능만으로 동작함.</p>
+<h3 id="codex-run">Codex 실행 순서 (1막 전체)</h3>
+<ol>
+<li><strong>폴더와 환경</strong> — 3장과 동일.
+<pre><code class="language-bash">mkdir newsroom_agent &amp;&amp; cd newsroom_agent
+python -m venv .venv
+.venv\Scripts\Activate.ps1          # macOS: source .venv/bin/activate
+pip install requests python-dotenv
+codex
+</code></pre>
+</li>
+<li><strong>권한 설정</strong> — 샌드박스를 <code>workspace-write</code>로. 작업 폴더 밖은 건드리지 못하게 함.</li>
+<li><strong>AGENTS.md 작성</strong> — 4-1절의 <code>CLAUDE.md</code> 내용을 파일명만 바꿔 저장.</li>
+<li><strong>서브에이전트 2개 변환</strong> — 아래 TOML 형식으로.</li>
+<li><strong>스킬 3개 배치</strong> — SKILL.md를 Codex 스킬 경로에 저장.</li>
+<li><strong>실행</strong> — 5장 프롬프트를 그대로 쓰되 계획·실행을 끊어서 지시.
+<pre><code class="language-text">/plan
+&quot;해상풍력 인허가와 국산화율&quot; 취재 기획해줘. AGENTS.md 순서대로 과거 기사 수집 →
+웹 배경 보완 → 배경 요약·구성 → 취재 계획 설계까지 진행하고, 단계마다 한 줄로 보고해.
+</code></pre>
+<pre><code class="language-text">/exec
+</code></pre>
+</li>
+<li><strong>확인</strong> — <code>/diff</code>로 생성·수정된 파일 확인. Codex는 diff 미리보기가 약하므로 이 단계를 건너뛰지 말 것.</li>
+</ol>
+<h3 id="codex-caution">Codex를 쓸 때 주의할 점</h3>
+<div class="tbl"><table>
+<thead>
+<tr><th>항목</th><th>내용</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>웹검색이 약할 수 있음</strong></td><td>이 회차는 <code>web-researcher</code>가 WebSearch에 의존함. 결과가 부실하면 검색 MCP(Tavily·Brave 등)를 <code>~/.codex/config.toml</code>에 추가</td></tr>
+<tr><td><strong>diff 확인 필수</strong></td><td>작업 후 <code>/diff</code>. 특히 <code>collect_news.py</code>의 <code>QUERIES</code>가 의도대로 바뀌었는지 확인</td></tr>
+<tr><td><strong>가상환경 인식</strong></td><td>Codex가 <code>python</code>을 못 찾으면 <code>(.venv)</code> 활성화 여부부터 확인. AGENTS.md에 실행 환경 규칙을 넣어두면 재발이 줄어듦</td></tr>
+<tr><td><strong>명령이 자주 바뀜</strong></td><td><code>codex</code> 안에서 <code>/help</code>로 현재 버전의 명령 목록 확인</td></tr>
+<tr><td><strong><code>--yolo</code> 금지</strong></td><td>승인과 샌드박스를 모두 끔. 강의 환경에서는 사용 금지</td></tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>도구 명령·API 필드·기본 모델은 2026년 8월 기준이며 자주 바뀜. 네이버 검색 API 문서(developers.naver.com)와 각 도구의 <code>/help</code>를 먼저 확인할 것.</p>
+</blockquote></div>
+    <div class="docfoot">2차 실습 1막 · 기획 — 배경 파악부터 질문 목록까지 · 다음 회차: <a href="./reporting.html">2막 · 취재</a> · 2026년 8월 기준이며 도구·설정은 자주 바뀝니다.</div>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.querySelectorAll('main pre').forEach(function(pre){
+  var code=pre.querySelector('code'); var lang='';
+  if(code){(code.className||'').split(' ').forEach(function(c){if(c.indexOf('language-')===0)lang=c.slice(9);});}
+  var card=document.createElement('div'); card.className='code-card';
+  var head=document.createElement('div'); head.className='code-head';
+  head.innerHTML='<div style="display:flex;align-items:center"><span class="code-dots"><i></i><i></i><i></i></span><span class="code-lang">'+(lang||'code')+'</span></div>';
+  var btn=document.createElement('button'); btn.className='code-copy'; btn.textContent='복사';
+  btn.addEventListener('click',function(){
+    navigator.clipboard.writeText(code?code.innerText:pre.innerText).then(function(){
+      btn.textContent='복사됨'; btn.classList.add('copied');
+      setTimeout(function(){btn.textContent='복사'; btn.classList.remove('copied');},1400);
+    });
+  });
+  head.appendChild(btn);
+  pre.parentNode.insertBefore(card,pre); card.appendChild(head); card.appendChild(pre);
+  if(window.hljs && code){try{hljs.highlightElement(code);}catch(e){}}
+});
+document.querySelectorAll('.wrap blockquote').forEach(function(bq){
+  if(bq.classList.contains('warn')) return;
+  var t=bq.textContent;
+  if(/주의|윤리|반드시|명예훼손|프라이버시|위험|yolo|금지/.test(t)) bq.classList.add('warn');
+});
+var links=[].slice.call(document.querySelectorAll('#toc a'));
+var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var heads=[].slice.call(document.querySelectorAll('main h2, main h3'));
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      links.forEach(function(a){a.classList.remove('active')});
+      var a=map[e.target.id]; if(a){a.classList.add('active'); a.scrollIntoView({block:'nearest'});}
+    }
+  });
+},{rootMargin:'0px 0px -78% 0px', threshold:0});
+heads.forEach(function(h){if(h.id)obs.observe(h);});
+</script>
+</body>
+</html>

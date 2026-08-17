@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강의 전 사전 준비 안내</title>
+<meta name="description" content="2차 실습 1막 참가자용 사전 준비 안내. 파이썬·네이버 API 키·스타터 파일 세팅까지 20분.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+:root{
+  --paper:#ffffff; --wash:#f5f6f9; --ink:#16171d; --body:#33353f; --muted:#71747f;
+  --accent:#b05a00; --accent-soft:#fdf1e3; --accent-line:#f0cfa0;
+  --line:#e7e8ee; --code-bg:#1d1e26; --warn:#b4631a; --warn-soft:#fdf1e3; --warn-line:#f0cfa0;
+  --ok:#0f8b8d; --ok-soft:#e4f5f5; --ok-line:#a6dcdc;
+  --maxw:1200px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--wash); color:var(--body);
+  font-family:"Pretendard","Pretendard Variable",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16.5px; line-height:1.75; letter-spacing:-0.01em;
+  -webkit-font-smoothing:antialiased;
+}
+.layout{max-width:var(--maxw); margin:0 auto; display:grid; grid-template-columns:262px minmax(0,1fr); gap:0; align-items:start}
+aside{position:sticky; top:0; height:100vh; overflow-y:auto; padding:34px 18px 60px 26px; border-right:1px solid var(--line); background:var(--paper)}
+.brandmark{font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; margin-bottom:4px}
+.brandsub{font-size:13px; color:var(--muted); margin-bottom:22px; line-height:1.5}
+nav{display:flex; flex-direction:column; gap:1px; border-left:2px solid var(--line)}
+nav a{display:block; text-decoration:none; color:var(--muted); padding:5px 0 5px 14px; margin-left:-2px; border-left:2px solid transparent; font-size:13.5px; transition:color .15s,border-color .15s}
+nav a:hover{color:var(--ink)}
+nav a.nav-h2{color:var(--body); font-weight:650; margin-top:8px}
+nav a.nav-h3{font-size:12.8px; padding-left:26px}
+nav a.active{color:var(--accent); border-left-color:var(--accent); font-weight:650}
+main{background:var(--paper); padding:0 0 90px; min-width:0}
+.wrap{max-width:820px; margin:0 auto; padding:0 40px}
+.hero{padding:64px 40px 40px; background:
+   radial-gradient(120% 100% at 0% 0%, #fdf1e3 0%, rgba(253,241,227,0) 55%),
+   linear-gradient(180deg,#fffdfa,#ffffff); border-bottom:1px solid var(--line)}
+.hero .inner{max-width:820px; margin:0 auto}
+.hero h1{font-size:clamp(30px,4.4vw,46px); line-height:1.12; letter-spacing:-0.03em; color:var(--ink); margin:0 0 14px; font-weight:800}
+.hero h3{font-size:16px; font-weight:600; color:var(--accent); margin:0 0 26px; letter-spacing:-0.01em}
+.hero blockquote{margin:0; padding:20px 22px; background:var(--paper); border:1px solid var(--line);
+   border-radius:14px; box-shadow:0 1px 0 rgba(20,20,30,.02); font-size:14.5px; color:var(--body)}
+.hero blockquote p{margin:.28em 0}
+.hero blockquote strong{color:var(--ink)}
+h2{font-size:25px; font-weight:780; color:var(--ink); letter-spacing:-0.02em; line-height:1.3;
+   margin:62px 0 18px; padding-top:18px; border-top:1px solid var(--line); scroll-margin-top:18px}
+.wrap > h2:first-child{border-top:none; margin-top:30px}
+h3{font-size:18.5px; font-weight:720; color:var(--ink); letter-spacing:-0.015em; margin:34px 0 12px; scroll-margin-top:18px}
+h2 + h3{margin-top:18px}
+h4{font-size:15.5px; font-weight:700; color:var(--ink); margin:22px 0 8px}
+p{margin:.7em 0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-line)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink); font-weight:700}
+hr{border:none; border-top:1px solid var(--line); margin:40px 0}
+ul,ol{margin:.6em 0; padding-left:1.35em}
+li{margin:.32em 0}
+li::marker{color:var(--accent)}
+ul ul,ol ul,ul ol{margin:.2em 0}
+code{font-family:"JetBrains Mono",monospace; font-size:.86em; background:#f0f0f4; color:#8a4b00;
+   padding:.14em .42em; border-radius:6px; border:1px solid #e6e5ef; letter-spacing:0}
+.code-card{margin:18px 0; border-radius:12px; overflow:hidden; border:1px solid #2a2b36; box-shadow:0 6px 22px -12px rgba(20,20,40,.35)}
+.code-head{display:flex; align-items:center; justify-content:space-between; background:#15161d; padding:8px 14px; border-bottom:1px solid #2a2b36}
+.code-dots{display:flex; gap:6px}
+.code-dots i{width:11px; height:11px; border-radius:50%; display:block}
+.code-dots i:nth-child(1){background:#ff5f57}.code-dots i:nth-child(2){background:#febc2e}.code-dots i:nth-child(3){background:#28c840}
+.code-lang{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8b8d9a; margin-left:10px}
+.code-copy{font-family:"Pretendard",sans-serif; font-size:12px; font-weight:600; color:#c5c7d4; background:#262732;
+   border:1px solid #34353f; border-radius:7px; padding:4px 11px; cursor:pointer; transition:.15s}
+.code-copy:hover{background:#31323e; color:#fff}
+.code-copy.copied{background:var(--accent); border-color:var(--accent); color:#fff}
+.code-card pre{margin:0; background:var(--code-bg); padding:16px 16px; overflow-x:auto}
+.code-card pre code{background:none; border:none; padding:0; color:#e6e6ed; font-size:13.3px; line-height:1.65; letter-spacing:0}
+.tbl{margin:20px 0; overflow-x:auto; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:560px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:var(--accent-soft); color:#7a3f00; font-weight:700; border-bottom:1px solid var(--accent-line); letter-spacing:-0.01em}
+tbody tr:nth-child(even){background:#fafafc}
+tbody tr:last-child td{border-bottom:none}
+td code,th code{font-size:.82em}
+.wrap blockquote{margin:18px 0; padding:14px 18px; background:var(--accent-soft);
+   border:1px solid var(--accent-line); border-left:4px solid var(--accent); border-radius:10px; color:#6e4314; font-size:14.5px}
+.wrap blockquote p{margin:.3em 0}
+.wrap blockquote strong{color:#8a4b00}
+.wrap blockquote code{background:#fff; color:#8a4b00}
+.wrap blockquote.ok{background:var(--ok-soft); border-color:var(--ok-line); border-left-color:var(--ok); color:#26504f}
+.wrap blockquote.ok strong{color:#0b5a5b}
+.wrap blockquote.ok code{color:#0b6f70}
+.checkbox{
+  margin:22px 0; padding:20px 24px; border:2px solid var(--accent-line);
+  border-radius:12px; background:var(--accent-soft);
+}
+.checkbox h4{margin:0 0 10px; color:#7a3f00; font-size:16px}
+.checkbox ul{list-style:none; padding:0; margin:0}
+.checkbox li{
+  position:relative; padding-left:30px; margin:9px 0; font-size:15px; color:#5b4633;
+}
+.checkbox li::before{
+  content:"☐"; position:absolute; left:0; top:-1px;
+  font-size:17px; color:var(--accent); font-weight:700;
+}
+.step{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:26px; height:26px; margin-right:8px; border-radius:999px;
+  background:var(--accent); color:#fff; font-family:"JetBrains Mono",monospace;
+  font-size:13px; font-weight:700; vertical-align:2px;
+}
+.time{
+  display:inline-block; margin-left:8px; padding:2px 9px; border-radius:999px;
+  background:#f0f0f4; color:var(--muted); font-size:12.5px; font-weight:650;
+  vertical-align:3px; letter-spacing:-0.01em;
+}
+.docfoot{max-width:820px; margin:50px auto 0; padding:22px 40px 0; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  aside{display:none}
+  .wrap,.hero .inner,.hero,.docfoot{padding-left:22px; padding-right:22px}
+}
+@media print{
+  body{background:#fff; font-size:11pt}
+  aside,.code-copy{display:none}
+  .layout{display:block}
+  .code-card{break-inside:avoid; border-color:#ccc}
+  .code-card pre{background:#f5f5f7}
+  .code-card pre code{color:#1d1e26}
+  .code-head{background:#eee}
+  .tbl,table,.checkbox{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{color:inherit; border:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brandmark">BEFORE CLASS</div>
+    <div class="brandsub">사전 준비 안내<br>2차 실습 1막 · 기획</div>
+    <nav id="toc"><a class="nav-h2" href="#check">한눈에 보는 준비물</a>
+<a class="nav-h2" href="#s1">1. 파이썬 확인</a>
+<a class="nav-h2" href="#s2">2. 네이버 API 키 발급</a>
+<a class="nav-h3" href="#s2-1">2-1. 발급 절차</a>
+<a class="nav-h3" href="#s2-2">2-2. 자주 막히는 지점</a>
+<a class="nav-h2" href="#s3">3. 스타터 파일 받기</a>
+<a class="nav-h2" href="#s4">4. 세팅 (5분)</a>
+<a class="nav-h2" href="#s5">5. 최종 동작 확인</a>
+<a class="nav-h2" href="#day">6. 강의 당일</a>
+<a class="nav-h2" href="#trouble">막힐 때</a>
+<a class="nav-h2" href="#faq">자주 묻는 질문</a></nav>
+  </aside>
+  <main>
+    <header class="hero"><div class="inner"><h1 id="_1">강의 전 사전 준비 안내</h1>
+<h3 id="_2">2차 실습 1막 · 기획 — 시작 전 20분만 투자하면 됩니다</h3>
+<blockquote>
+<p><strong>대상</strong>: VS Code와 Claude Code(또는 OpenAI Codex)를 이미 쓰고 있는 기자<br>
+<strong>소요 시간</strong>: 약 <strong>20분</strong> (네이버 계정이 있으면 15분)<br>
+<strong>왜 미리 하나</strong>: 강의 2시간 중 세팅에 시간을 쓰면 정작 중요한 <strong>질문 목록 만들기</strong>를 못 합니다<br>
+<strong>마감</strong>: 강의 <strong>전날까지</strong>. 막히면 미리 알려 주세요</p>
+</blockquote>
+</div></header>
+    <div class="wrap">
+
+<div class="checkbox">
+  <h4 id="check">한눈에 보는 준비물</h4>
+  <ul>
+    <li>노트북 (Windows 또는 macOS) · 인터넷</li>
+    <li><strong>파이썬 3.11 이상</strong> 설치 — 이미 있으면 확인만</li>
+    <li><strong>VS Code</strong> — 이미 쓰고 계시면 그대로</li>
+    <li><strong>Claude Code 또는 OpenAI Codex</strong> — 둘 중 하나만. 로그인까지 되어 있을 것</li>
+    <li><strong>네이버 검색 API 키</strong> (Client ID / Client Secret) — 아래 2번</li>
+    <li><strong>스타터 파일</strong> 압축 풀고 세팅 — 아래 3~4번</li>
+    <li>최종 동작 확인 문구 <code>준비 완료</code> 를 봤을 것 — 아래 5번</li>
+  </ul>
+</div>
+
+<blockquote class="ok">
+<p><strong>DART·국회 API 키는 이번에 필요 없습니다.</strong> 1막(기획)은 <strong>네이버 키 하나</strong>만 씁니다. DART·국회 키는 다음 회차(2막·취재)에서 안내드립니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="s1"><span class="step">1</span>파이썬 확인<span class="time">2분</span></h2>
+
+<p>VS Code에서 터미널을 엽니다. <strong>Terminal &gt; New Terminal</strong> (단축키 <code>Ctrl</code> + 백틱 <code>`</code>)</p>
+
+<pre><code class="language-bash">python --version
+</code></pre>
+
+<p><code>Python 3.11.x</code> 처럼 <strong>3.11 이상</strong>이 나오면 통과입니다. macOS는 <code>python3 --version</code> 으로 확인하세요.</p>
+
+<h4>버전이 안 나오거나 3.10 이하라면</h4>
+
+<ol>
+<li><code>python.org</code> 접속 → 상단 <strong>Downloads</strong> → 노란 버튼 클릭</li>
+<li>설치 첫 화면에서 <strong>"Add python.exe to PATH" 를 반드시 체크</strong> → Install Now</li>
+<li>설치 후 <strong>VS Code를 껐다 다시 켜고</strong> 위 명령을 다시 실행</li>
+</ol>
+
+<blockquote>
+<p><strong>"Add to PATH" 를 빠뜨렸다면</strong> — 터미널이 <code>python</code> 을 못 찾습니다. 설치 파일을 다시 실행해 <strong>Modify</strong> 에서 PATH를 추가하면 됩니다. 재설치할 필요 없습니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="s2"><span class="step">2</span>네이버 검색 API 키 발급<span class="time">7분</span></h2>
+
+<p>과거 기사를 모으는 데 씁니다. <strong>무료이고 즉시 발급</strong>됩니다. 심사·승인 대기가 없습니다.</p>
+
+<h3 id="s2-1">2-1. 발급 절차</h3>
+
+<ol>
+<li><strong><code>developers.naver.com</code></strong> 접속 → 우측 상단에서 <strong>네이버 계정으로 로그인</strong>
+  <br><span style="color:#71747f;font-size:14.5px">평소 쓰는 개인 네이버 계정이면 됩니다. 별도 개발자 가입 절차 없습니다.</span></li>
+
+<li>상단 메뉴 <strong>Application</strong> → <strong>애플리케이션 등록</strong></li>
+
+<li><strong>애플리케이션 이름</strong> 입력 — 아무거나 괜찮습니다. 예: <code>취재실습</code></li>
+
+<li><strong>사용 API</strong> 에서 <strong>"검색"</strong> 을 선택
+  <br><span style="color:#b4631a;font-size:14.5px"><strong>이 단계를 빠뜨리면 나중에 401 오류가 납니다.</strong> 목록에서 '검색'을 꼭 고르세요.</span></li>
+
+<li><strong>비로그인 오픈 API 서비스 환경</strong> 에서 <strong>"WEB 설정"</strong> 선택 →
+  <strong>웹 서비스 URL</strong> 칸에 아래를 입력
+  <pre><code class="language-text">http://localhost</code></pre>
+  <span style="color:#71747f;font-size:14.5px">실제로 접속하는 주소가 아니라 형식상 필요한 값입니다. 그대로 넣으세요.</span></li>
+
+<li><strong>등록하기</strong> 클릭 → 다음 화면에 <strong>Client ID</strong> 와 <strong>Client Secret</strong> 이 나옵니다</li>
+
+<li>두 값을 <strong>메모장에 복사해 두세요.</strong> 4번 단계에서 씁니다
+  <br><span style="color:#71747f;font-size:14.5px">나중에 다시 볼 수 있습니다. Application &gt; 내 애플리케이션 &gt; 해당 앱</span></li>
+</ol>
+
+<h3 id="s2-2">2-2. 자주 막히는 지점</h3>
+
+<div class="tbl"><table>
+<thead>
+<tr><th>상황</th><th>대처</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>사용 API 목록에 '검색'이 안 보임</td>
+<td>스크롤을 내려 보세요. 목록이 깁니다</td>
+</tr>
+<tr>
+<td>등록 후 "검색 API를 추가하지 않았다"는 걸 알았음</td>
+<td>지우고 다시 만들 필요 없음. <strong>내 애플리케이션 &gt; API 설정</strong> 에서 추가 가능</td>
+</tr>
+<tr>
+<td>웹 서비스 URL 형식 오류</td>
+<td><code>http://localhost</code> 를 그대로. 끝에 슬래시(<code>/</code>)나 공백을 넣지 마세요</td>
+</tr>
+<tr>
+<td>Client Secret이 가려져 보임</td>
+<td>옆의 <strong>보기</strong> 버튼을 누르면 나옵니다</td>
+</tr>
+</tbody>
+</table></div>
+
+<blockquote>
+<p><strong>키는 비밀번호와 같습니다.</strong> 메신저·이메일로 공유하지 마세요. 강의 중에도 화면 공유 시 노출되지 않게 주의해 주세요. 실수로 노출됐다면 내 애플리케이션에서 <strong>재발급</strong>하면 됩니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="s3"><span class="step">3</span>스타터 파일 받기<span class="time">2분</span></h2>
+
+<p><strong>본인이 쓰는 도구에 맞는 것 하나만</strong> 받으세요. 두 개를 다 받을 필요 없습니다.</p>
+
+<div class="tbl"><table>
+<thead>
+<tr><th>쓰는 도구</th><th>내려받기</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Code</strong></td>
+<td><a href="./starter/starter-claude.zip"><strong>starter-claude.zip</strong> 내려받기</a></td>
+</tr>
+<tr>
+<td><strong>OpenAI Codex</strong></td>
+<td><a href="./starter/starter-codex.zip"><strong>starter-codex.zip</strong> 내려받기</a></td>
+</tr>
+</tbody>
+</table></div>
+
+<blockquote>
+<p><strong>다운로드가 안 되면</strong> — 저장소에서 직접 받을 수도 있습니다.
+<a href="https://github.com/jonghhhh/newsroom_agent/raw/main/starter/starter-claude.zip">Claude용</a> ·
+<a href="https://github.com/jonghhhh/newsroom_agent/raw/main/starter/starter-codex.zip">Codex용</a><br>
+브라우저가 zip을 열지 않고 그냥 보여준다면, 링크를 <strong>마우스 오른쪽 클릭 → 다른 이름으로 링크 저장</strong> 하세요.</p>
+</blockquote>
+
+<p>압축을 풀면 <code>newsroom_agent/</code> 폴더가 나옵니다.</p>
+
+<ol>
+<li>이 폴더를 <strong>원하는 위치</strong>에 두세요. (예: <code>C:\vscode\newsroom_agent</code>)
+  <br><span style="color:#b4631a;font-size:14.5px">한글·공백이 없는 경로를 권합니다. 바탕화면·다운로드 폴더는 피하세요.</span></li>
+<li>VS Code에서 <strong>File &gt; Open Folder</strong> → 이 <code>newsroom_agent</code> 폴더를 선택</li>
+</ol>
+
+<blockquote>
+<p><strong>이 폴더는 2·3막까지 계속 씁니다.</strong> 이름을 바꾸거나 지우지 마세요. 회차가 바뀌어도 같은 폴더에서 이어집니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="s4"><span class="step">4</span>세팅<span class="time">5분</span></h2>
+
+<p>VS Code에서 <code>newsroom_agent</code> 폴더를 연 상태로, 터미널을 열고 순서대로 실행합니다.</p>
+
+<h3 id="s4-1">① 가상환경 만들기 (한 번만)</h3>
+
+<pre><code class="language-bash"># Windows
+python -m venv .venv
+
+# macOS
+python3 -m venv .venv
+</code></pre>
+
+<h3 id="s4-2">② 활성화</h3>
+
+<pre><code class="language-bash"># Windows · PowerShell
+.venv\Scripts\Activate.ps1
+
+# macOS
+source .venv/bin/activate
+</code></pre>
+
+<p>입력줄 맨 앞에 <strong><code>(.venv)</code></strong> 가 붙으면 성공입니다.</p>
+
+<pre><code class="language-text">(.venv) PS C:\vscode\newsroom_agent&gt;
+ ↑ 이 표시가 핵심
+</code></pre>
+
+<blockquote>
+<p><strong>Windows에서 "이 시스템에서 스크립트를 실행할 수 없으므로…" 오류가 나면</strong><br>
+아래를 <strong>한 번만</strong> 실행한 뒤 ② 를 다시 하세요. 보안상 안전한 표준 설정입니다.</p>
+</blockquote>
+
+<pre><code class="language-powershell">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+</code></pre>
+
+<h3 id="s4-3">③ 패키지 설치</h3>
+
+<p><code>(.venv)</code> 가 켜진 상태에서:</p>
+
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+
+<h3 id="s4-4">④ API 키 넣기</h3>
+
+<p>먼저 서식 파일을 복사합니다.</p>
+
+<pre><code class="language-bash"># Windows PowerShell
+Copy-Item .env.example .env
+
+# macOS
+cp .env.example .env
+</code></pre>
+
+<p>VS Code 왼쪽 탐색기에서 <strong><code>.env</code></strong> 파일을 열고, 2번에서 받은 키를 채웁니다.</p>
+
+<pre><code class="language-text">NAVER_CLIENT_ID=여기에_발급받은_ID
+NAVER_CLIENT_SECRET=여기에_발급받은_SECRET
+</code></pre>
+
+<blockquote>
+<p><strong>이 세 가지만 지키면 됩니다.</strong><br>
+· 등호(<code>=</code>) <strong>앞뒤에 공백을 넣지 마세요</strong><br>
+· 값 뒤에 <strong>주석을 붙이지 마세요</strong> (예: <code>NAVER_CLIENT_ID=abc123  # 내 키</code> ✗)<br>
+· 따옴표는 <strong>써도 되고 안 써도 됩니다</strong><br>
+<br>
+아래 <code>DART_API_KEY</code>, <code>ASSEMBLY_API_KEY</code> 는 <strong>비워 두세요.</strong> 2막에서 씁니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="s5"><span class="step">5</span>최종 동작 확인<span class="time">2분</span></h2>
+
+<p><strong>이 단계까지 통과해야 준비 완료입니다.</strong> <code>(.venv)</code> 가 켜진 상태에서 아래를 복사해 붙여넣으세요.</p>
+
+<pre><code class="language-bash">python -c "import os,requests,dotenv; dotenv.load_dotenv(); k=os.getenv('NAVER_CLIENT_ID'); print('준비 완료' if k and '여기에' not in k else '.env 의 키를 확인하세요')"
+</code></pre>
+
+<p><strong><code>준비 완료</code></strong> 가 나오면 끝입니다. 강의 때 뵙겠습니다.</p>
+
+<div class="tbl"><table>
+<thead>
+<tr><th>나온 결과</th><th>의미와 대처</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><code>준비 완료</code></td>
+<td>통과. 더 할 것 없습니다</td>
+</tr>
+<tr>
+<td><code>.env 의 키를 확인하세요</code></td>
+<td><code>.env</code> 파일이 없거나 키를 안 채웠습니다. 4-④ 다시</td>
+</tr>
+<tr>
+<td><code>ModuleNotFoundError</code></td>
+<td><code>(.venv)</code> 가 안 켜진 상태입니다. 4-② 다시</td>
+</tr>
+<tr>
+<td><code>python</code> 을 찾을 수 없음</td>
+<td>파이썬 미설치 또는 PATH 누락. 1번 다시</td>
+</tr>
+</tbody>
+</table></div>
+
+<blockquote class="ok">
+<p><strong>여기까지 됐으면 실제 수집도 됩니다.</strong> 궁금하시면 강의 전에 미리 돌려 보셔도 좋습니다. 다만 필수는 아닙니다.</p>
+</blockquote>
+
+<pre><code class="language-bash"># Claude Code용 스타터
+python .claude/skills/background-collect/collect_news.py
+
+# Codex용 스타터
+python .agents/skills/background-collect/collect_news.py
+</code></pre>
+
+<p>검색어 3개로 <strong>800건 안팎</strong>이 모이고, 수집 기간과 매체 분포가 출력되면 정상입니다.</p>
+
+<hr />
+
+<h2 id="day"><span class="step">6</span>강의 당일</h2>
+
+<ul>
+<li>노트북과 <strong>충전기</strong>를 가져오세요. 실습 내내 켜 둡니다</li>
+<li><strong>Claude Code 또는 Codex에 로그인된 상태</strong>로 오세요. 당일 로그인·결제는 시간이 많이 걸립니다</li>
+<li>VS Code에서 <code>newsroom_agent</code> 폴더를 <strong>열어 둔 채로</strong> 시작합니다</li>
+<li>취재하고 싶은 <strong>본인 출입처 주제</strong>가 있으면 한 줄로 적어 오세요. 공통 주제(해상풍력) 대신 써 볼 수 있습니다</li>
+</ul>
+
+<blockquote>
+<p><strong>준비가 안 됐어도 오세요.</strong> 강의 시작에 10분 정도 세팅 시간을 둡니다. 다만 <strong>미리 알려 주시면</strong> 그 시간에 집중해서 도와드릴 수 있습니다.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="trouble">막힐 때</h2>
+
+<h3 id="trouble-1">먼저 AI에게 물어보세요</h3>
+
+<p>설치·환경 오류는 <strong>AI가 가장 잘 해결하는 영역</strong>입니다. 오류 메시지를 <strong>그대로 복사해</strong> 붙여넣고 이렇게 물으세요.</p>
+
+<pre><code class="language-text">내 OS는 Windows야. VS Code 터미널에서 아래 오류가 났어.
+원인과 해결 방법을 단계별로 알려줘.
+
+[여기에 오류 메시지 전체를 붙여넣기]
+</code></pre>
+
+<h3 id="trouble-2">증상별 대처</h3>
+
+<div class="tbl"><table>
+<thead>
+<tr><th>증상</th><th>원인</th><th>대처</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(.venv)</code> 가 안 보임</td>
+<td>활성화 안 됨</td>
+<td>4-② 다시. Windows면 실행정책 명령 먼저</td>
+</tr>
+<tr>
+<td>"이 시스템에서 스크립트를 실행할 수 없으므로…"</td>
+<td>Windows 실행정책</td>
+<td><code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code></td>
+</tr>
+<tr>
+<td><code>ModuleNotFoundError</code></td>
+<td>활성화 안 한 채 실행</td>
+<td><code>(.venv)</code> 확인 후 <code>pip install -r requirements.txt</code></td>
+</tr>
+<tr>
+<td><code>HTTP 401</code></td>
+<td>키 오류 또는 '검색' API 미추가</td>
+<td>2-1의 4번 단계 확인. 내 애플리케이션에서 API 추가</td>
+</tr>
+<tr>
+<td><code>KeyError: 'NAVER_CLIENT_ID'</code></td>
+<td><code>.env</code> 없음/이름 다름</td>
+<td>파일명이 정확히 <code>.env</code> 인지 확인 (<code>.env.txt</code> ✗)</td>
+</tr>
+<tr>
+<td>키를 넣었는데 안 먹음</td>
+<td>등호 옆 공백 / 값 뒤 주석</td>
+<td>4-④ 의 세 가지 규칙 확인</td>
+</tr>
+<tr>
+<td>폴더를 옮겼더니 활성화 실패</td>
+<td><code>.venv</code> 가 경로를 기억함</td>
+<td><code>.venv</code> 폴더를 지우고 4-① 부터 다시</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3 id="trouble-3">그래도 안 되면</h3>
+
+<p>아래 세 가지를 함께 보내 주세요. 강의 전에 해결해 드립니다.</p>
+
+<ol>
+<li>사용하는 <strong>OS</strong> (Windows 11 / macOS 등)</li>
+<li>어느 <strong>단계</strong>에서 막혔는지 (예: 4-② 활성화)</li>
+<li><strong>오류 메시지 전체</strong> (스크린샷보다 텍스트 복사가 좋습니다)</li>
+</ol>
+
+<hr />
+
+<h2 id="faq">자주 묻는 질문</h2>
+
+<h4>Claude Code와 Codex 중 뭘 써야 하나요?</h4>
+<p><strong>이미 쓰고 계신 것</strong>을 쓰세요. 결과물에 큰 차이가 없고, 강의 자료에 양쪽 안내가 모두 들어 있습니다. 둘 다 있으면 Claude Code를 권합니다 — 자료가 조금 더 많습니다.</p>
+
+<h4>파이썬을 몰라도 되나요?</h4>
+<p>됩니다. 스타터에 스크립트가 이미 들어 있고, 강의에서는 <strong>검색어 몇 개를 바꾸는 것</strong>이 전부입니다. 코드를 읽거나 쓸 필요 없습니다.</p>
+
+<h4>회사 노트북이라 설치가 제한됩니다</h4>
+<p>미리 알려 주세요. 파이썬 설치가 막히면 관리자 권한 없이 쓰는 방법이 있습니다. 다만 <strong>사전에</strong> 확인이 필요합니다.</p>
+
+<h4>구글 Gemini를 쓰고 있는데요</h4>
+<p>2026년 6월 18일부로 Gemini CLI가 종료됐고 후속은 Antigravity CLI(<code>agy</code>)입니다. 다만 <strong>무료 사용량이 하루 20회 안팎</strong>으로 매우 빡빡해 실습 중 멈출 위험이 큽니다. 이번 실습은 <strong>Claude Code 또는 Codex</strong>로 진행해 주세요.</p>
+
+<h4>DART·국회 키도 지금 받아 둘까요?</h4>
+<p>받아 두셔도 좋지만 <strong>이번엔 필요 없습니다.</strong> 2막 안내 때 발급 절차를 따로 보내 드립니다. 그쪽은 회원가입·본인인증이 있어 시간이 더 걸립니다.</p>
+
+<h4>공통 주제 대신 제 출입처 주제를 써도 되나요?</h4>
+<p>됩니다. 다만 <strong>세 소스(뉴스·공시·의안)에서 같은 이름이 반복 등장하는 주제</strong>여야 뒤 회차의 교차검증이 굴러갑니다. 한 줄로 적어 오시면 강의 중에 함께 판단해 보겠습니다.</p>
+
+</div>
+    <div class="docfoot">강의 전 사전 준비 안내 · 2차 실습 1막 · 기획 · 준비가 끝나면 <a href="./index.html">학습 허브</a>에서 <a href="./plan.html">1막 문서</a>를 미리 훑어보셔도 좋습니다.</div>
+  </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.querySelectorAll('main pre').forEach(function(pre){
+  var code=pre.querySelector('code'); var lang='';
+  if(code){(code.className||'').split(' ').forEach(function(c){if(c.indexOf('language-')===0)lang=c.slice(9);});}
+  var card=document.createElement('div'); card.className='code-card';
+  var head=document.createElement('div'); head.className='code-head';
+  head.innerHTML='<div style="display:flex;align-items:center"><span class="code-dots"><i></i><i></i><i></i></span><span class="code-lang">'+(lang||'code')+'</span></div>';
+  var btn=document.createElement('button'); btn.className='code-copy'; btn.textContent='복사';
+  btn.addEventListener('click',function(){
+    navigator.clipboard.writeText(code?code.innerText:pre.innerText).then(function(){
+      btn.textContent='복사됨'; btn.classList.add('copied');
+      setTimeout(function(){btn.textContent='복사'; btn.classList.remove('copied');},1400);
+    });
+  });
+  head.appendChild(btn);
+  pre.parentNode.insertBefore(card,pre); card.appendChild(head); card.appendChild(pre);
+  if(window.hljs && code){try{hljs.highlightElement(code);}catch(e){}}
+});
+var links=[].slice.call(document.querySelectorAll('#toc a'));
+var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var heads=[].slice.call(document.querySelectorAll('main h2, main h3'));
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      links.forEach(function(a){a.classList.remove('active')});
+      var a=map[e.target.id]; if(a){a.classList.add('active'); a.scrollIntoView({block:'nearest'});}
+    }
+  });
+},{rootMargin:'0px 0px -78% 0px', threshold:0});
+heads.forEach(function(h){if(h.id)obs.observe(h);});
+</script>
+</body>
+</html>

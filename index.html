@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기자를 위한 바이브 코딩 가이드</title>
+<meta name="description" content="기획·취재·보도 세 막을 에이전트로 잇는 기자용 바이브 코딩 학습 허브. DART·국회·뉴스 API로 자료를 모으고 교차검증해 기사까지 씁니다.">
+<meta property="og:title" content="기자를 위한 바이브 코딩 가이드">
+<meta property="og:description" content="기획 → 취재 → 보도. 앞 단계의 산출물이 뒷 단계의 입력이 되는 취재보도 에이전트 실습">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jonghhhh.github.io/newsroom_agent/">
+<link rel="canonical" href="https://jonghhhh.github.io/newsroom_agent/">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ffffff;
+  --wash:#f5f6f9;
+  --ink:#16171d;
+  --body:#343642;
+  --muted:#737783;
+  --accent:#5a40e8;
+  --accent-2:#0f8b8d;
+  --accent-3:#b05a00;
+  --accent-4:#0a6cf0;
+  --accent-soft:#efeaff;
+  --line:#e5e7ef;
+  --panel:#fafbfe;
+  --shadow:0 18px 50px -34px rgba(20,22,35,.45);
+  --maxw:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--wash);
+  color:var(--body);
+  font-family:"Pretendard","Pretendard Variable",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;
+  line-height:1.7;
+  word-break:keep-all;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.skip{
+  position:absolute;
+  left:-999px;
+  top:12px;
+  background:var(--ink);
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+  z-index:10;
+}
+.skip:focus{left:12px}
+.shell{max-width:var(--maxw); margin:0 auto; background:var(--paper); min-height:100vh; box-shadow:var(--shadow)}
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:18px clamp(20px,4vw,48px);
+  background:rgba(255,255,255,.92);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(14px);
+}
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  text-decoration:none;
+}
+.brand strong{
+  color:var(--ink);
+  font-weight:800;
+  letter-spacing:-.02em;
+}
+.brand span{
+  color:var(--muted);
+  font-size:12px;
+  font-family:"JetBrains Mono",monospace;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.nav{display:flex; gap:18px; align-items:center; flex-wrap:wrap}
+.nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:650;
+  font-size:14px;
+}
+.nav a:hover{color:var(--accent)}
+.hero{
+  padding:72px clamp(24px,5vw,64px) 44px;
+  background:
+    radial-gradient(120% 90% at 4% 0%, #f0ecff 0%, rgba(240,236,255,0) 58%),
+    linear-gradient(180deg,#fbfbff 0%,#ffffff 78%);
+  border-bottom:1px solid var(--line);
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 18px;
+  color:var(--accent);
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.eyebrow::before{
+  content:"";
+  width:28px;
+  height:2px;
+  background:var(--accent);
+  border-radius:999px;
+}
+h1{
+  max-width:760px;
+  margin:0;
+  color:var(--ink);
+  font-size:clamp(36px,6vw,64px);
+  line-height:1.08;
+  letter-spacing:-.045em;
+  font-weight:850;
+}
+.hero-copy{
+  max-width:760px;
+  margin:22px 0 0;
+  color:#474a55;
+  font-size:18px;
+  line-height:1.75;
+}
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:30px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 16px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  text-decoration:none;
+  font-weight:750;
+  font-size:14px;
+}
+.btn.primary{
+  border-color:var(--accent);
+  background:var(--accent);
+  color:white;
+}
+.btn:hover{transform:translateY(-1px)}
+.content{padding:46px clamp(24px,5vw,64px) 80px}
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin:0 0 18px;
+}
+h2{
+  margin:0;
+  color:var(--ink);
+  font-size:26px;
+  line-height:1.25;
+  letter-spacing:-.025em;
+}
+.section-head p{
+  max-width:560px;
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+.path{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin-bottom:54px;
+}
+.path.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.stage-label{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 14px;
+  color:var(--muted);
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.stage-label::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+.flow{
+  margin:0 0 54px;
+  padding:26px clamp(18px,3vw,30px);
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+}
+.flow .root{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:0 0 20px;
+  padding-bottom:16px;
+  border-bottom:1px dashed var(--line);
+}
+.flow .root code{
+  font-family:"JetBrains Mono",monospace;
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink);
+}
+.flow .root span{color:var(--muted); font-size:13px}
+.stage{
+  padding:18px 20px;
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:0 8px 8px 0;
+  background:#fff;
+}
+.stage.s2{border-left-color:var(--accent-2)}
+.stage.s3{border-left-color:var(--accent-3)}
+.stage .tag{
+  display:inline-block;
+  margin:0 0 12px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.1em;
+  color:var(--accent);
+}
+.stage.s2 .tag{color:var(--accent-2)}
+.stage.s3 .tag{color:var(--accent-3)}
+.stage dl{
+  display:grid;
+  grid-template-columns:minmax(120px,auto) minmax(0,1fr);
+  gap:6px 18px;
+  margin:0;
+  font-size:13.5px;
+}
+.stage dt{
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  color:var(--accent);
+}
+.stage.s2 dt{color:var(--accent-2)}
+.stage.s3 dt{color:var(--accent-3)}
+.stage dd{margin:0; color:#4b4e59; font-family:"JetBrains Mono",monospace; font-size:13px}
+.stage .yield{
+  margin:14px 0 0;
+  padding-top:12px;
+  border-top:1px dashed var(--line);
+  color:var(--ink);
+  font-size:14px;
+}
+.stage .yield b{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent);
+}
+.stage.s2 .yield b{color:var(--accent-2)}
+.stage.s3 .yield b{color:var(--accent-3)}
+.link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 0 10px 24px;
+  color:var(--muted);
+  font-size:13px;
+}
+.link::before{
+  content:"↓";
+  font-weight:700;
+  color:var(--ink);
+}
+.flow figcaption{
+  margin:20px 0 0;
+  padding-top:16px;
+  border-top:1px dashed var(--line);
+  color:var(--muted);
+  font-size:13.5px;
+  line-height:1.75;
+}
+@media (max-width:620px){
+  .stage dl{grid-template-columns:1fr; gap:2px}
+  .stage dd{margin-bottom:8px}
+}
+.note{
+  margin:0 0 54px;
+  padding:18px 20px;
+  border-left:4px solid var(--accent-3);
+  border-radius:0 8px 8px 0;
+  background:#fff8f0;
+  color:#5b4633;
+  font-size:14px;
+  line-height:1.75;
+}
+.note strong{color:#8a4b00}
+.module{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:330px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+}
+.module::before{
+  content:attr(data-step);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  height:34px;
+  padding:0 10px;
+  border-radius:999px;
+  color:white;
+  background:var(--accent);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:18px;
+}
+.module:nth-child(2)::before{background:var(--accent-2)}
+.module:nth-child(3)::before{background:var(--accent-3)}
+.module:nth-child(4)::before{background:var(--accent-4)}
+.module h3{
+  margin:0;
+  color:var(--ink);
+  font-size:22px;
+  line-height:1.3;
+  letter-spacing:-.02em;
+}
+.module p{margin:12px 0 0; color:#4b4e59}
+.module ul{
+  margin:18px 0 22px;
+  padding:0;
+  list-style:none;
+  color:#555965;
+  font-size:14px;
+}
+.module li{
+  position:relative;
+  padding-left:16px;
+  margin:7px 0;
+}
+.module li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.72em;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
+}
+.module:nth-child(2) li::before{background:var(--accent-2)}
+.module:nth-child(3) li::before{background:var(--accent-3)}
+.module:nth-child(4) li::before{background:var(--accent-4)}
+.module .open{
+  margin-top:auto;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.module .open a{
+  display:inline-flex;
+  align-items:center;
+  min-height:38px;
+  padding:0 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:white;
+  color:var(--ink);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:750;
+}
+.module .open a.main{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.module:nth-child(2) .open a.main{border-color:var(--accent-2); color:var(--accent-2)}
+.module:nth-child(3) .open a.main{border-color:var(--accent-3); color:var(--accent-3)}
+.module:nth-child(4) .open a.main{border-color:var(--accent-4); color:var(--accent-4)}
+.band{
+  padding:28px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  margin-bottom:26px;
+}
+.band h2{margin-bottom:12px}
+.band p{margin:.7em 0}
+.topics{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin-bottom:26px;
+}
+.topic{
+  padding:22px 24px;
+  border:1px solid var(--line);
+  border-top:4px solid var(--accent);
+  border-radius:8px;
+  background:var(--panel);
+}
+.topic.b{border-top-color:var(--accent-2)}
+.topic .kicker{
+  display:block;
+  margin-bottom:6px;
+  color:var(--accent);
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.topic.b .kicker{color:var(--accent-2)}
+.topic h3{
+  margin:0 0 10px;
+  color:var(--ink);
+  font-size:19px;
+  line-height:1.32;
+  letter-spacing:-.02em;
+}
+.topic p{margin:.55em 0; font-size:14.5px; color:#4b4e59}
+.topic dl{
+  display:grid;
+  grid-template-columns:minmax(96px,auto) minmax(0,1fr);
+  gap:6px 14px;
+  margin:16px 0 0;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+  font-size:13.5px;
+}
+.topic dt{font-weight:700; color:var(--ink)}
+.topic dd{margin:0; color:#555965}
+.checklist{
+  display:grid;
+  gap:10px;
+}
+.check{
+  padding:14px 16px;
+  border-left:4px solid var(--accent);
+  background:#f8f8ff;
+  border-radius:0 8px 8px 0;
+}
+.check strong{display:block; color:var(--ink); margin-bottom:2px}
+.check span{display:block; color:var(--muted); font-size:14px}
+.files{
+  display:grid;
+  gap:10px;
+}
+.file-row{
+  display:grid;
+  grid-template-columns:minmax(160px,.75fr) minmax(0,1fr);
+  gap:12px;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+}
+.file-row:last-child{border-bottom:none}
+.file-row a{
+  color:var(--accent);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  font-weight:700;
+  text-decoration:none;
+}
+.file-row a:hover{text-decoration:underline}
+.file-row span{color:#555965}
+.file-row.archived a{color:var(--muted)}
+.deploy{
+  padding:28px;
+  border-radius:8px;
+  background:#16171d;
+  color:#e7e8ee;
+  margin-bottom:26px;
+}
+.deploy h2{color:white; margin-bottom:10px}
+.deploy p{margin:.6em 0; color:#c7cad4}
+.deploy code{
+  display:inline-block;
+  padding:.16em .48em;
+  border-radius:6px;
+  background:#282a34;
+  color:#ffffff;
+  font-family:"JetBrains Mono",monospace;
+  font-size:.88em;
+}
+.deploy a{color:#ffffff; font-weight:750}
+.deploy ul{margin:.6em 0; padding-left:1.2em; color:#c7cad4}
+.deploy li{margin:.35em 0}
+.deploy li::marker{color:#8f93a3}
+footer{
+  padding:24px clamp(24px,5vw,64px) 38px;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  font-size:13px;
+}
+@media (max-width:900px){
+  .topbar{position:static; align-items:flex-start; flex-direction:column; gap:12px}
+  .path,.path.three,.topics{grid-template-columns:1fr}
+  .module{min-height:auto}
+}
+@media (max-width:620px){
+  .hero{padding-top:46px}
+  .hero-copy{font-size:16px}
+  .section-head{display:block}
+  .section-head p{margin-top:8px}
+  .file-row{grid-template-columns:1fr}
+  .topic dl{grid-template-columns:1fr; gap:2px}
+  .topic dd{margin-bottom:8px}
+  .nav{gap:12px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="바이브 코딩 가이드 홈">
+      <strong>바이브 코딩 가이드</strong>
+      <span>Vibecoding Guide</span>
+    </a>
+    <nav class="nav" aria-label="주요 이동">
+      <a href="#courses">1차 · 도구 익히기</a>
+      <a href="#practice">2차 · 취재보도 실습</a>
+      <a href="#pipeline">전체 흐름</a>
+      <a href="#topics">실습 주제</a>
+      <a href="#files">자료 바로가기</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">For newsrooms</p>
+      <h1 id="page-title">기획 · 취재 · 보도를<br>에이전트로 잇는다</h1>
+      <p class="hero-copy">
+        기자를 위한 바이브 코딩 학습 허브. 1차에서 도구를 손에 익히고,
+        2차에서는 실제 취재 흐름 그대로 <strong>기획 → 취재 → 보도</strong> 세 단계를
+        하나의 프로젝트 안에서 이어 만듦. 앞 단계의 산출물이 뒷 단계의 입력이 되도록 설계함.
+      </p>
+      <div class="hero-actions" aria-label="빠른 시작">
+        <a class="btn primary" href="./plan.html">1막 · 기획부터 시작</a>
+        <a class="btn" href="./reporting.html">2막 · 취재</a>
+        <a class="btn" href="./writing.html">3막 · 보도</a>
+        <a class="btn" href="./vibecoding_basic.html">입문 가이드</a>
+        <a class="btn" href="./prep.html">강의 전 사전 준비</a>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="section-head" id="courses">
+        <h2>1차 · 도구 익히기</h2>
+        <p>2차 실습에 들어가기 전 준비 과정. 이미 수강했다면 필요할 때 되돌아와 찾아보는 참고서로 활용.</p>
+      </div>
+
+      <div class="path" aria-label="1차 과정">
+        <article class="module" data-step="01">
+          <h3>바이브 코딩 입문</h3>
+          <p>코딩 경험이 적은 기자가 AI 코딩 도구를 손에 익히는 기본 과정.</p>
+          <ul>
+            <li>파이썬 설치</li>
+            <li><strong>가상환경(.venv)과 pip</strong> — 2차 실습의 설치 사고를 막는 절</li>
+            <li>Claude Code · OpenAI Codex 실습</li>
+            <li>Antigravity CLI(<code>agy</code>) — 구 Gemini CLI의 후속</li>
+            <li>도구 비교와 자주 나는 오류 해결</li>
+          </ul>
+          <div class="open">
+            <a class="main" href="./vibecoding_basic.html">입문 가이드 열기</a>
+          </div>
+        </article>
+
+        <article class="module" data-step="02">
+          <h3>바이브 코딩 심화</h3>
+          <p>2차 실습에서 계속 쓰는 부품을 여기서 배움. 막히면 이 문서로 돌아올 것.</p>
+          <ul>
+            <li>CLAUDE.md / AGENTS.md — 프로젝트 규칙과 문체</li>
+            <li>스킬 · 커스텀 명령어 — 표준 절차</li>
+            <li>서브에이전트 — 독립 문맥의 일꾼</li>
+            <li>MCP — 외부 도구·브라우저 연결</li>
+            <li>병렬·반복·예약·대량 처리(오케스트레이션)</li>
+          </ul>
+          <div class="open">
+            <a class="main" href="./vibecoding_advanced.html">심화 가이드 열기</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="section-head" id="practice">
+        <h2>2차 · 취재보도 실습</h2>
+        <p>취재 흐름 그대로 세 막. 회차마다 문서 하나, 모두 같은 <code>newsroom_agent/</code> 폴더 안에서 이어짐.</p>
+      </div>
+
+      <div class="path three" aria-label="2차 취재보도 실습 3막">
+        <article class="module" data-step="1막 · PLAN">
+          <h3>기획</h3>
+          <p>취재 주제 한 마디에서 출발해 배경을 파악하고 <strong>확인해야 할 질문 목록</strong>을 만듦.</p>
+          <ul>
+            <li>과거 기사·웹으로 배경 수집</li>
+            <li>타임라인 · 인물/기관 · 쟁점 정리</li>
+            <li>핵심 질문 Q1·Q2·Q3… 도출</li>
+            <li>필요 자료 · 인터뷰 대상 설계</li>
+          </ul>
+          <div class="open">
+            <a class="main" href="./plan.html">1막 문서 열기</a>
+          </div>
+        </article>
+
+        <article class="module" data-step="2막 · REPORTING">
+          <h3>취재</h3>
+          <p>질문에 답할 자료를 모으고, 뽑아낸 개체를 <strong>다른 출처로 교차검증</strong>. 2차의 무게중심.</p>
+          <ul>
+            <li>API 수집 — DART · 국회 · 뉴스</li>
+            <li>Playwright MCP · Scrapling</li>
+            <li>개체 추출 — 인물·기관·금액·날짜</li>
+            <li>독립 서브에이전트로 교차검증</li>
+          </ul>
+          <div class="open">
+            <a class="main" href="./reporting.html">2막 문서 열기</a>
+          </div>
+        </article>
+
+        <article class="module" data-step="3막 · WRITING">
+          <h3>보도</h3>
+          <p>검증된 사실 대장만을 근거로 기사를 쓰고 <strong>문장별로 되짚어</strong> 검증.</p>
+          <ul>
+            <li>뉴스가치로 앵글 정하기</li>
+            <li>내 문체로 초고 작성</li>
+            <li>문장 → 근거 ID 팩트체크</li>
+            <li>수정 반영과 변경 요약</li>
+          </ul>
+          <div class="open">
+            <a class="main" href="./writing.html">3막 문서 열기</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="section-head" id="pipeline">
+        <h2>세 막이 이어지는 방식</h2>
+        <p>막과 막 사이를 잇는 것은 설명이 아니라 파일. 앞 막의 산출물이 뒷 막의 입력 경로가 됨.</p>
+      </div>
+
+      <figure class="flow">
+        <div class="root">
+          <code>newsroom_agent/</code>
+          <span>프로젝트는 하나. 회차가 바뀌어도 같은 폴더에서 이어짐.</span>
+        </div>
+        <div class="stage">
+          <p class="tag">공통 — 1막에서 한 번 만들고 끝까지 재사용</p>
+          <dl>
+            <dt>CLAUDE.md</dt><dd>취재 규칙 · 문체 · 윤리. 매 작업에 자동 적용</dd>
+            <dt>.venv/</dt><dd>파이썬 가상환경. 패키지는 여기에만 pip로 설치</dd>
+            <dt>.env</dt><dd>DART · 국회 · 네이버 API 키</dd>
+            <dt>.mcp.json</dt><dd>Playwright MCP 연결</dd>
+          </dl>
+        </div>
+
+        <p class="link">위 설정 위에서 세 막이 차례로 쌓임</p>
+
+        <div class="stage">
+          <p class="tag">1막 · 기획 (PLAN)</p>
+          <dl>
+            <dt>1_plan/</dt><dd>reporting_plan.md</dd>
+          </dl>
+          <p class="yield">산출 → 확인해야 할 질문 <b>Q1 · Q2 · Q3 …</b></p>
+        </div>
+
+        <p class="link">Q2에 답할 자료는 어디에 있나?</p>
+
+        <div class="stage s2">
+          <p class="tag">2막 · 취재 (REPORTING)</p>
+          <dl>
+            <dt>2_sources/</dt><dd>수집 원문 + collection_log.md</dd>
+            <dt>2_facts/</dt><dd>entities.md → verified.md → fact_ledger.md</dd>
+          </dl>
+          <p class="yield">산출 → 검증된 사실 <b>F17</b> (근거: Q2 · DART 공시 4쪽)</p>
+        </div>
+
+        <p class="link">대장에 있는 사실만 기사에 쓴다</p>
+
+        <div class="stage s3">
+          <p class="tag">3막 · 보도 (WRITING)</p>
+          <dl>
+            <dt>3_story/</dt><dd>article_v1.md → factcheck.md → article_v2.md</dd>
+          </dl>
+          <p class="yield">산출 → 모든 문장에 근거 ID <b>[F17]</b></p>
+        </div>
+
+        <figcaption>
+          <strong>사실 대장(fact ledger)이 세 막을 관통하는 척추.</strong>
+          1막에서 던진 질문이 2막에서 자료·출처에 묶이고, 3막에서 기사 문장의 근거 ID가 됨.
+          이 사슬이 있으면 "AI가 지어낸 것"과 "자료에 근거한 것"이 문장 단위로 구분됨.
+        </figcaption>
+      </figure>
+
+      <p class="note">
+        <strong>중간에 합류해도 됨.</strong>
+        각 막의 시작 지점에 이전 단계 산출물 배포본을 함께 제공.
+        2막부터 참여하면 <code>1_plan/</code>을, 3막부터 참여하면 <code>2_facts/</code>를 풀어놓고 그 자리에서 시작.
+      </p>
+
+      <div class="section-head" id="topics">
+        <h2>실습 주제 — 두 가지 중 선택</h2>
+        <p>세 막이 하나의 사슬로 이어지려면 주제가 하나여야 함. 아래 두 주제 중 하나를 골라 세 회차 내내 유지.</p>
+      </div>
+
+      <section class="band" aria-labelledby="why-title">
+        <h2 id="why-title">주제 선정 기준은 하나</h2>
+        <p>
+          <strong>같은 기업·의원 이름이 공시와 의안과 기사에 반복 등장해야 함.</strong>
+          2막의 교차검증 실습은 이 조건이 갖춰져야 실제로 굴러감. 쟁점이 뚜렷해야 1막의 취재 기획도 성립함.
+        </p>
+        <p>
+          아래 두 주제는 이 조건을 모두 만족함. 본인 출입처 주제로 바꿔도 되지만,
+          <strong>세 소스에서 공통 개체가 잡히는지 1막에서 먼저 확인</strong>할 것.
+          주제를 바꿀 때 무엇을 고쳐야 하는지는 <a href="./topic_switch.html">주제 바꾸기 가이드</a>에 단계별로 정리해 둠.
+        </p>
+      </section>
+
+      <div class="topics" aria-label="실습 주제 두 가지">
+        <article class="topic">
+          <span class="kicker">주제 A · 기본</span>
+          <h3>재생에너지 전환의 돈과 규칙<br>— 해상풍력을 사례로</h3>
+          <p><strong>쟁점</strong>: 인허가 지연 · 국산화율 · 보조금 · 주민수용성.</p>
+          <p><strong>강점</strong>: 상장 제조사가 여럿이라 공시가 두텁고, 특별법·지원법 의안이 많아 국회 데이터가 풍부함.</p>
+          <dl>
+            <dt>국회</dt><dd>22대 의안 — 재생에너지 56건 · 해상풍력 12건 · 태양광 10건. 발의 의원 명단까지 확보</dd>
+            <dt>DART</dt><dd>씨에스윈드 · SK오션플랜트 · 유니슨 · 두산에너빌리티 등 상장사 공시</dd>
+            <dt>뉴스</dt><dd>배경 파악과 언론사별 프레임 비교</dd>
+          </dl>
+        </article>
+
+        <article class="topic b">
+          <span class="kicker">주제 B · 생활 밀착</span>
+          <h3>배달앱 수수료는 누가 정하고<br>누가 부담하나</h3>
+          <p><strong>쟁점</strong>: 중개수수료율 · 배달비 전가 · 이중가격제 · 상생협의체 합의 이행.</p>
+          <p><strong>강점</strong>: 자영업자와 소비자 양쪽에 직접 영향. 취재 동기와 독자 관심이 뚜렷해 앵글 잡기가 쉬움.</p>
+          <dl>
+            <dt>국회</dt><dd>온라인플랫폼 중개거래 공정화법 등 플랫폼 규제 의안 다수</dd>
+            <dt>DART</dt><dd>우아한형제들(비상장·감사보고서 제출) · 쿠팡㈜ 등 국내 법인 공시</dd>
+            <dt>뉴스</dt><dd>수수료 인상·상생협의체 보도 대량. 시점 대조에 유리</dd>
+          </dl>
+        </article>
+      </div>
+
+      <p class="note">
+        <strong>어느 쪽을 고를까.</strong>
+        데이터가 가장 두텁고 예시 코드가 그대로 맞는 쪽은 <strong>주제 A(해상풍력)</strong>.
+        수강생이 취재 동기를 바로 느끼고 앵글 토론이 활발한 쪽은 <strong>주제 B(배달앱 수수료)</strong>.
+        강의 시간이 넉넉하면 A로 전 과정을 돌린 뒤 B로 <a href="./topic_switch.html">주제 전환 실습</a>을 하는 구성이 가장 효과적임.
+      </p>
+
+      <section aria-labelledby="files-title">
+        <div class="section-head" id="files">
+          <h2 id="files-title">자료 바로가기</h2>
+          <p>모두 상대경로로 연결됨. 저장소 루트에 이 <code>index.html</code>을 두면 첫 화면으로 열림.</p>
+        </div>
+        <div class="files">
+          <div class="file-row">
+            <a href="./vibecoding_basic.html">vibecoding_basic.html</a>
+            <span>1차 · 입문 — 파이썬 설치 · 가상환경(.venv) · 도구별 첫 실습</span>
+          </div>
+          <div class="file-row">
+            <a href="./vibecoding_advanced.html">vibecoding_advanced.html</a>
+            <span>1차 · 심화 — 메모리 파일 · 스킬 · 서브에이전트 · MCP · 오케스트레이션</span>
+          </div>
+          <div class="file-row">
+            <a href="./plan.html">plan.html</a>
+            <span>2차 1막 · 기획 — 배경 파악과 질문 목록 만들기</span>
+          </div>
+          <div class="file-row">
+            <a href="./reporting.html">reporting.html</a>
+            <span>2차 2막 · 취재 — 자료 수집과 개체 교차검증</span>
+          </div>
+          <div class="file-row">
+            <a href="./writing.html">writing.html</a>
+            <span>2차 3막 · 보도 — 기사 작성과 문장별 팩트체크</span>
+          </div>
+          <div class="file-row">
+            <a href="./topic_switch.html">topic_switch.html</a>
+            <span>부록 · 주제 바꾸기 — 새 주제를 세 막 전체에 적용하는 법 (배달앱 수수료 사례)</span>
+          </div>
+          <div class="file-row">
+            <a href="./prep.html">prep.html</a>
+            <span>수강생 발송용 · 강의 전 사전 준비 — 파이썬 · 네이버 API 키 · 스타터 세팅 (20분)</span>
+          </div>
+          <div class="file-row">
+            <a href="./starter/starter-claude.zip">starter-claude.zip</a>
+            <span>1막 스타터 · Claude Code용 — <code>CLAUDE.md</code> · 서브에이전트 2 · 스킬 3 · <code>collect_news.py</code></span>
+          </div>
+          <div class="file-row">
+            <a href="./starter/starter-codex.zip">starter-codex.zip</a>
+            <span>1막 스타터 · OpenAI Codex용 — <code>AGENTS.md</code> · <code>.codex/agents/*.toml</code> · 동일 스킬·스크립트</span>
+          </div>
+          <div class="file-row archived">
+            <a href="./collector.html">collector.html</a>
+            <span>보관본 · 자료 수집 파이프라인 — 현재는 <a href="./reporting.html">reporting.html</a>에 통합됨</span>
+          </div>
+          <div class="file-row archived">
+            <a href="./investigation.html">investigation.html</a>
+            <span>보관본 · 문서 더미에서 단서 찾기 — 현재는 <a href="./reporting.html">reporting.html</a>에 통합됨</span>
+          </div>
+          <div class="file-row">
+            <a href="https://github.com/jonghhhh/newsroom_agent/">github.com/jonghhhh/newsroom_agent</a>
+            <span>원본 저장소</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="deploy" id="deploy" aria-labelledby="deploy-title" style="margin-top:54px">
+        <h2 id="deploy-title">강의 전 준비물</h2>
+        <p>
+          <strong>수강생에게는 <a href="./prep.html">사전 준비 안내문</a>과 스타터 zip을 보내면 됩니다.</strong>
+          안내문 하나로 아래 내용이 단계별로 정리돼 있고, 20분이면 끝납니다.
+          <strong>1막만 진행한다면 네이버 키 하나</strong>만 있으면 되므로 사전 부담이 작습니다.
+        </p>
+        <p><strong>① 파이썬과 가상환경</strong></p>
+        <ul>
+          <li>파이썬 3.11 이상 설치. Windows는 설치 중 <strong>"Add python.exe to PATH" 체크</strong> 필수.</li>
+          <li>프로젝트 폴더에서 <code>python -m venv .venv</code> → 활성화 → <code>pip install</code>. 자세한 절차는 <a href="./vibecoding_basic.html#venv">입문 가이드 사전 준비 2</a>.</li>
+        </ul>
+        <p><strong>② AI 코딩 도구 (한 가지만 준비해도 됨)</strong></p>
+        <ul>
+          <li>Claude Code(Anthropic 계정) 또는 OpenAI Codex(ChatGPT 계정). 문서는 Claude Code 기준이며, <strong>각 문서 마지막의 "Codex로 만들기" 절에 대체 방법</strong>이 있음.</li>
+          <li>구글 Antigravity CLI(<code>agy</code>)는 무료 한도가 빡빡해 실습 기본 도구로는 비권장.</li>
+        </ul>
+        <p><strong>③ API 키</strong> — 2차 실습은 공개 API를 직접 호출함. 아래 키를 미리 발급받아 <code>.env</code>에 저장할 것. 발급은 모두 무료이며 신청 즉시 또는 하루 안에 승인됨.</p>
+        <p>
+          <code>DART_API_KEY</code> — 금융감독원 전자공시 · <code>opendart.fss.or.kr</code><br>
+          <code>ASSEMBLY_API_KEY</code> — 열린국회정보 · <code>open.assembly.go.kr</code><br>
+          <code>NAVER_CLIENT_ID</code> / <code>NAVER_CLIENT_SECRET</code> — 네이버 검색 API · <code>developers.naver.com</code>
+        </p>
+        <p>
+          공공데이터포털(<code>data.go.kr</code>)은 선택 심화.
+          이곳은 <strong>키를 발급받아도 API마다 따로 "활용신청"을 해야</strong> 하고,
+          신청하지 않은 API는 키가 있어도 <code>SERVICE_KEY_IS_NOT_REGISTERED_ERROR</code>로 막힘.
+          쓸 계획이면 강의 전에 해당 API를 신청해 둘 것.
+        </p>
+      </section>
+
+      <section class="band" aria-labelledby="codex-title">
+        <h2 id="codex-title">Codex로 대체하기</h2>
+        <p>
+          모든 문서는 <strong>Claude Code 기준</strong>으로 작성했지만, <strong>OpenAI Codex로도 전 과정을 그대로 진행</strong>할 수 있음.
+          수강생 중 ChatGPT 구독자가 많다면 이 경로를 쓰면 됨. 개념이 1:1로 대응되고 파일 이름·형식과 실행 명령만 다름.
+        </p>
+        <div class="checklist" aria-label="Claude Code와 Codex 대응">
+          <div class="check">
+            <strong>프로젝트 지침</strong>
+            <span><code>CLAUDE.md</code> → <code>AGENTS.md</code>. 파일명만 바꾸고 내용은 그대로 사용.</span>
+          </div>
+          <div class="check">
+            <strong>서브에이전트</strong>
+            <span><code>.claude/agents/&lt;이름&gt;.md</code> → <code>.codex/agents/&lt;이름&gt;.toml</code>. 마크다운 프론트매터를 TOML 키(<code>name</code>·<code>description</code>·<code>developer_instructions</code>)로 옮김.</span>
+          </div>
+          <div class="check">
+            <strong>스킬</strong>
+            <span><code>SKILL.md</code> 형식은 동일. 위치만 Codex 규칙에 맞추고 대화에서 <code>$스킬이름</code>으로 호출.</span>
+          </div>
+          <div class="check">
+            <strong>MCP 연결</strong>
+            <span><code>.mcp.json</code> → <code>~/.codex/config.toml</code>의 <code>[mcp_servers]</code>. JSON을 TOML로 변환.</span>
+          </div>
+          <div class="check">
+            <strong>실행과 권한</strong>
+            <span>폴더에서 <code>codex</code> 실행. 계획은 <code>/plan</code>, 실행은 <code>/exec</code>, 확인은 <code>/diff</code>. 권한은 샌드박스 <code>workspace-write</code> 권장.</span>
+          </div>
+        </div>
+        <p>
+          각 문서 마지막의 <strong>"Codex로 만들기"</strong> 절에 해당 회차의 파일별 변환 방법과 주의점을 자세히 정리해 둠.
+          Codex는 diff 미리보기가 약하므로 <strong>바뀐 파일을 반드시 직접 확인</strong>할 것.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    기자를 위한 바이브 코딩 학습 허브 — 1차 도구 익히기, 2차 기획·취재·보도 실습.
+    AI는 단서를 모아 주는 도구이며, 확인과 게재의 책임은 사람 기자에게 있습니다.
+    도구 버전·API 사양은 2026년 8월 기준이며 자주 바뀝니다.
+  </footer>
+</div>
+</body>
+</html>

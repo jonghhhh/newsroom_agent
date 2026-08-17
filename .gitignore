@@ -1,0 +1,20 @@
+# 절대 커밋 금지 — API 키
+.env
+*.env
+!.env.example
+
+# 파이썬 가상환경 / 캐시
+.venv/
+__pycache__/
+*.pyc
+.cache/
+
+# 실습 산출물 (각자 로컬에만)
+1_plan/
+2_sources/
+2_facts/
+3_story/
+
+# OS
+.DS_Store
+Thumbs.db
